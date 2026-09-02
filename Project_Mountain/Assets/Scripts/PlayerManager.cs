@@ -12,8 +12,6 @@ public class PlayerManager : CharacterManager
 
         playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
         animator = GetComponent<Animator>();
-
-        InputManager.instance.player = this;
     }
 
     protected override void Update()

@@ -3,33 +3,30 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class InputManager : MonoBehaviour
+public class PlayerInputManager : MonoBehaviour
 {
-    public static InputManager instance;
+    public static PlayerInputManager instance;
     private PlayerControls playerControls;
-    public PlayerManager player;
 
-    [Header("Inputs")]
     [SerializeField] private bool LeftClick = false; 
+    [SerializeField] public float mouseX;
+    [SerializeField] public float mouseY;
 
-    [Header("WASD Input")]
     [SerializeField] bool enableWASDMovement = true;
     [SerializeField] Vector2 movementInput;
     [SerializeField] public float verticalInput;
     [SerializeField] public float horizontalInput;
-    public float moveAmount;
+    [SerializeField] public float moveAmount;
  
-
-
-    Vector3 moveDirection;
-
+    [SerializeField] public Vector2 cameraInput;
+ 
     private void Awake()
     {   
         if(instance == null){
             instance = this;
         }
         else{
-            Destroy(this);
+            Destroy(gameObject);
         }
 
         DontDestroyOnLoad(gameObject);
@@ -68,7 +65,9 @@ public class InputManager : MonoBehaviour
         
         //MOUSE INPUTS 
         playerControls.Player.LeftClick.performed += i => LeftClick = true;
+
         playerControls.Player.WASD.performed += i => movementInput = i.ReadValue<Vector2>();
+        playerControls.Player.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
     }
 
     void OnDisable()
@@ -85,7 +84,7 @@ public class InputManager : MonoBehaviour
     private void HandleInputActions()
     {
         HandleLeftClickAction();
-        HandleWASDMovement();
+        HandleMovementInput();
     }
 
     private void HandleLeftClickAction()
@@ -97,7 +96,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void HandleWASDMovement()
+    private void HandleMovementInput()
     {
         if (!enableWASDMovement)
         {
