@@ -12,13 +12,17 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] public float mouseX;
     [SerializeField] public float mouseY;
 
+    [Header("MOVEMENT INPUT")]
     [SerializeField] bool enableWASDMovement = true;
     [SerializeField] Vector2 movementInput;
     [SerializeField] public float verticalInput;
     [SerializeField] public float horizontalInput;
     [SerializeField] public float moveAmount;
  
+     [Header("CAMERA MOVEMENT INPUT")]
     [SerializeField] public Vector2 cameraInput;
+    public float cameraHorizontalInput;
+    public float cameraVerticalInput;
  
     private void Awake()
     {   
@@ -64,10 +68,10 @@ public class PlayerInputManager : MonoBehaviour
         playerControls.Enable();
         
         //MOUSE INPUTS 
-        playerControls.Player.LeftClick.performed += i => LeftClick = true;
+        // playerControls.Player.LeftClick.performed += i => LeftClick = true;
 
-        playerControls.Player.WASD.performed += i => movementInput = i.ReadValue<Vector2>();
-        playerControls.Player.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
+        playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
+        playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
     }
 
     void OnDisable()
@@ -84,7 +88,8 @@ public class PlayerInputManager : MonoBehaviour
     private void HandleInputActions()
     {
         HandleLeftClickAction();
-        HandleMovementInput();
+        HandlePlayerMovementInput();
+        HandleCameraMovementInput();
     }
 
     private void HandleLeftClickAction()
@@ -96,7 +101,7 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
-    private void HandleMovementInput()
+    private void HandlePlayerMovementInput()
     {
         if (!enableWASDMovement)
         {
@@ -115,5 +120,11 @@ public class PlayerInputManager : MonoBehaviour
         {
             moveAmount = 1;
         }
+    }
+
+    private void HandleCameraMovementInput()
+    {
+        cameraVerticalInput = cameraInput.y;
+        cameraHorizontalInput = cameraInput.x;
     }
 }
