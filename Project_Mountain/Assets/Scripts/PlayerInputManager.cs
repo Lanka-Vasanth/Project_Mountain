@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class PlayerInputManager : MonoBehaviour
 {
     public static PlayerInputManager instance;
+    public PlayerManager player;
+
     private PlayerControls playerControls;
 
     [SerializeField] private bool LeftClick = false; 
@@ -120,6 +122,14 @@ public class PlayerInputManager : MonoBehaviour
         {
             moveAmount = 1;
         }
+
+        if(player == null)
+        {
+            return;
+        }
+
+        //WHEN NOT LOCKED ON
+        player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
     }
 
     private void HandleCameraMovementInput()

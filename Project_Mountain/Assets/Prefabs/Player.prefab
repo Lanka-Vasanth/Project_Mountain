@@ -130,9 +130,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48743711aaf94514191a99d1be378e99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  characterController: {fileID: 0}
   playerLocomotionManager: {fileID: 0}
   animator: {fileID: 0}
-  isMoving: 0
 --- !u!114 &-9151089923770528062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,6 +145,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b01052526dee6eb42aede58b90114ff6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  player: {fileID: 0}
+  verticalMovement: 0
+  horizontalMovement: 0
+  moveAmount: 0
+  rotationSpeed: 15
+  walkSpeed: 2
+  runSpeed: 5
 --- !u!95 &-6306732398478292044
 Animator:
   serializedVersion: 7

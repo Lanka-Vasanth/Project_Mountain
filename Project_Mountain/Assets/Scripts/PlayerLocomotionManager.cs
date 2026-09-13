@@ -30,25 +30,25 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         HandleRotation();
     }
 
-    private void GetVerticalAndHorizontalInputs()
+    private void GetMovementValues()
     {
-        verticalMovement = PlayerInputManager.instance.verticalInput;
+        verticalMovement = PlayerInputManager.instance.verticalInput; 
         horizontalMovement = PlayerInputManager.instance.horizontalInput;
+        moveAmount = PlayerInputManager.instance.moveAmount;
     }
 
     private void HandleGroundMovement()
     {
-        GetVerticalAndHorizontalInputs();
+        GetMovementValues();
 
         Vector3 camForwardDirection = Camera.main.transform.forward;
         camForwardDirection.y=0;
-        camForwardDirection.Normalize();
 
         Vector3 camRightDirection = Camera.main.transform.right;
         camRightDirection.y=0;
-        camRightDirection.Normalize();
 
         moveDirection = camForwardDirection*verticalMovement + camRightDirection*horizontalMovement;
+        moveDirection.Normalize();
         
         if(PlayerInputManager.instance.moveAmount > 0.5f)
         {
@@ -63,14 +63,13 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     {
         Vector3 camForwardDirection = Camera.main.transform.forward;
         camForwardDirection.y=0;
-        camForwardDirection.Normalize();
 
         Vector3 camRightDirection = Camera.main.transform.right;
         camRightDirection.y=0;
-        camRightDirection.Normalize();
 
         targetRotationDirection = Vector3.zero;
         targetRotationDirection = camForwardDirection*verticalMovement + camRightDirection*horizontalMovement;
+        targetRotationDirection.Normalize();
 
         if(targetRotationDirection == Vector3.zero)
         {
