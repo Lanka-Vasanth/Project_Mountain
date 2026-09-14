@@ -11,12 +11,15 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     public float horizontalMovement;
     public float moveAmount;
 
+    [Header("MOVEMENT SETTINGS")]
     private Vector3 moveDirection;
     private Vector3 targetRotationDirection;
     [SerializeField] float rotationSpeed = 15;
     [SerializeField] float walkSpeed = 2;
     [SerializeField] float runSpeed = 5;
 
+    [Header("Dash")]
+    private Vector3 dashDirection;
 
     protected override void Awake()
     {
@@ -39,12 +42,17 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private void HandleGroundMovement()
     {
+        if (!player.canMove)
+        {
+            return;
+        }
+
         GetMovementValues();
 
-        Vector3 camForwardDirection = Camera.main.transform.forward;
-        camForwardDirection.y=0;
+        Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
+        camForwardDirection.y=0; 
 
-        Vector3 camRightDirection = Camera.main.transform.right;
+        Vector3 camRightDirection = PlayerCamera.instance.cameraObject.transform.right;
         camRightDirection.y=0;
 
         moveDirection = camForwardDirection*verticalMovement + camRightDirection*horizontalMovement;
@@ -61,10 +69,14 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private void HandleRotation()
     {
-        Vector3 camForwardDirection = Camera.main.transform.forward;
+        if (!player.canRotate)
+        {
+            return;
+        }
+        Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
         camForwardDirection.y=0;
 
-        Vector3 camRightDirection = Camera.main.transform.right;
+        Vector3 camRightDirection = PlayerCamera.instance.cameraObject.transform.right;
         camRightDirection.y=0;
 
         targetRotationDirection = Vector3.zero;
@@ -80,5 +92,38 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed*Time.deltaTime);
     
         transform.rotation = targetRotation;
+    }
+
+    public void AttemptToPerformDash()
+    {
+        if (player.isPerformingAction)
+        {
+            return;
+        }
+
+        if(PlayerInputManager.instance.moveAmount > 0){
+            Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
+            camForwardDirection.y=0;
+
+            Vector3 camRightDirection = PlayerCamera.instance.cameraObject.transform.right;
+            camRightDirection.y=0;
+
+            dashDirection = camForwardDirection * PlayerInputManager.instance.verticalInput + camRightDirection * PlayerInputManager.instance.horizontalInput;
+            dashDirection.y = 0;
+            dashDirection.Normalize();
+            Quaternion playerRotation = Quaternion.LookRotation(dashDirection);
+
+            player.transform.rotation = playerRotation;
+
+            //PERFORM DASH ANIMATION
+            player.playerAnimatorManager.PlayTargetActionAnimation("Dash", true, true);
+        }
+        //IF STATIONARY
+        else
+        {
+            //PERFORM BACKSTEP ANIMATION
+            player.playerAnimatorManager.PlayTargetActionAnimation("Backflip", true, true);
+        }
+
     }
 }

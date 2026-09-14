@@ -233,6 +233,45 @@
             ]
         },
         {
+            "name": "Player Actions",
+            "id": "8d6dca35-748e-4752-b26e-d21719652644",
+            "actions": [
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "a47dbe1c-8457-457b-898e-4d316d9f850d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f03168e8-23e1-460c-944d-67b48c1ed18d",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dc8bb7e0-50d9-425c-8fd5-3b72959b6c90",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "UI",
             "id": "272f6d14-89ba-496f-b7ff-215263d3219f",
             "actions": [

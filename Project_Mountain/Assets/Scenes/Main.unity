@@ -160,6 +160,7 @@ MonoBehaviour:
   cameraInput: {x: 0, y: 0}
   cameraHorizontalInput: 0
   cameraVerticalInput: 0
+  dashInput: 0
 --- !u!4 &345519073
 Transform:
   m_ObjectHideFlags: 0
@@ -537,6 +538,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8763402855895957116, guid: fda9872b4088a794c9147f799cd2afbe, type: 3}
+      propertyPath: runSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763402855895957116, guid: fda9872b4088a794c9147f799cd2afbe, type: 3}
+      propertyPath: walkSpeed
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -893,6 +902,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 666749639405499163, guid: c0534a17b9726254bb38656e05bb6705, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132652215751227272, guid: c0534a17b9726254bb38656e05bb6705, type: 3}
+      propertyPath: orthographic
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2652013860560932157, guid: c0534a17b9726254bb38656e05bb6705, type: 3}

@@ -14,17 +14,21 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] public float mouseX;
     [SerializeField] public float mouseY;
 
-    [Header("MOVEMENT INPUT")]
+    [Header("PLAYER MOVEMENT INPUT")]
     [SerializeField] bool enableWASDMovement = true;
     [SerializeField] Vector2 movementInput;
     [SerializeField] public float verticalInput;
     [SerializeField] public float horizontalInput;
     [SerializeField] public float moveAmount;
  
-     [Header("CAMERA MOVEMENT INPUT")]
+    [Header("CAMERA MOVEMENT INPUT")]
     [SerializeField] public Vector2 cameraInput;
     public float cameraHorizontalInput;
     public float cameraVerticalInput;
+
+    [Header("PLAYER ACTION INPUT")]
+    [SerializeField] bool dashInput = false;
+
  
     private void Awake()
     {   
@@ -74,6 +78,8 @@ public class PlayerInputManager : MonoBehaviour
 
         playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
         playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
+        playerControls.PlayerActions.Dash.performed += i => dashInput = true;
+
     }
 
     void OnDisable()
@@ -83,25 +89,19 @@ public class PlayerInputManager : MonoBehaviour
 
     private void Update()
     {
-        HandleInputActions();
+        HandleAllInputs();
     }
 
     // WILL BE CALLED EACH FRAME IN UPDATE, RECORDS ALL INPUT ACTIONS
-    private void HandleInputActions()
+    private void HandleAllInputs()
     {
         HandleLeftClickAction();
         HandlePlayerMovementInput();
         HandleCameraMovementInput();
+        HandleDashInput();
     }
 
-    private void HandleLeftClickAction()
-    {
-        if(LeftClick){
-            LeftClick = false;
-
-            //RUN CLICK LOGIC
-        }
-    }
+    //MOVEMENT
 
     private void HandlePlayerMovementInput()
     {
@@ -136,5 +136,30 @@ public class PlayerInputManager : MonoBehaviour
     {
         cameraVerticalInput = cameraInput.y;
         cameraHorizontalInput = cameraInput.x;
+    }
+
+    //ACTION
+
+    private void HandleDashInput()
+    {
+        if (dashInput)
+        {
+            dashInput = false;
+
+            //NOTE TO DEV: RETURN IF UI IS ACTIVE ON SCREEN
+            //PERFORM DASH
+            player.playerLocomotionManager.AttemptToPerformDash();
+        }
+
+
+    }
+    
+    private void HandleLeftClickAction()
+    {
+        if(LeftClick){
+            LeftClick = false;
+
+            //RUN CLICK LOGIC
+        }
     }
 }
