@@ -58,13 +58,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         moveDirection = camForwardDirection*verticalMovement + camRightDirection*horizontalMovement;
         moveDirection.Normalize();
         
-        if(PlayerInputManager.instance.moveAmount > 0.5f)
-        {
-            player.characterController.Move(moveDirection*runSpeed*Time.deltaTime);
-        }else if(PlayerInputManager.instance.moveAmount <= 0.5f)
-        {
-            player.characterController.Move(moveDirection*walkSpeed*Time.deltaTime);
-        }
+        player.characterController.Move(moveDirection*runSpeed*Time.deltaTime);
     }
 
     private void HandleRotation()
