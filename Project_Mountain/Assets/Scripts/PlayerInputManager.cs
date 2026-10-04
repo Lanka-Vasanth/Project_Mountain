@@ -28,6 +28,7 @@ public class PlayerInputManager : MonoBehaviour
 
     [Header("PLAYER ACTION INPUT")]
     [SerializeField] bool dashInput = false;
+    [SerializeField] bool sprintInput = false;
 
  
     private void Awake()
@@ -80,6 +81,10 @@ public class PlayerInputManager : MonoBehaviour
         playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
         playerControls.PlayerActions.Dash.performed += i => dashInput = true;
 
+        //HOLDING THE INPUT SETS TO TRUE, LEAVING REVERTS TO FALSE
+        playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
+        playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
+
     }
 
     void OnDisable()
@@ -99,6 +104,7 @@ public class PlayerInputManager : MonoBehaviour
         HandlePlayerMovementInput();
         HandleCameraMovementInput();
         HandleDashInput();
+        HandleSprinting();
     }
 
     //MOVEMENT
@@ -129,7 +135,7 @@ public class PlayerInputManager : MonoBehaviour
         }
 
         //WHEN NOT LOCKED ON
-        player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+        player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.isSprinting);
     }
 
     private void HandleCameraMovementInput()
@@ -150,8 +156,6 @@ public class PlayerInputManager : MonoBehaviour
             //PERFORM DASH
             player.playerLocomotionManager.AttemptToPerformDash();
         }
-
-
     }
     
     private void HandleLeftClickAction()
@@ -160,6 +164,18 @@ public class PlayerInputManager : MonoBehaviour
             LeftClick = false;
 
             //RUN CLICK LOGIC
+        }
+    }
+
+    private void HandleSprinting()
+    {
+        if (sprintInput)
+        {
+            player.playerLocomotionManager.HandleSprinting();
+        }
+        else
+        {
+            player.isSprinting = false;
         }
     }
 }

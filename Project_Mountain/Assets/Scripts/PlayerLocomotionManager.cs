@@ -17,6 +17,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [SerializeField] float rotationSpeed = 15;
     [SerializeField] float walkSpeed = 2;
     [SerializeField] float runSpeed = 5;
+    [SerializeField] float sprintSpeed = 15;
 
     [Header("Dash")]
     private Vector3 dashDirection;
@@ -57,8 +58,20 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
         moveDirection = camForwardDirection*verticalMovement + camRightDirection*horizontalMovement;
         moveDirection.Normalize();
-        
-        player.characterController.Move(moveDirection*runSpeed*Time.deltaTime);
+
+        if (player.isSprinting)
+        {
+            player.characterController.Move(moveDirection*sprintSpeed*Time.deltaTime);
+        }else{
+            
+            if(PlayerInputManager.instance.moveAmount > 0.5f)
+            {
+                player.characterController.Move(moveDirection*runSpeed*Time.deltaTime);
+            }else if(PlayerInputManager.instance.moveAmount <= 0.5f)
+            {
+                player.characterController.Move(moveDirection*walkSpeed*Time.deltaTime);
+            }
+        }
     }
 
     private void HandleRotation()
@@ -86,6 +99,24 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed*Time.deltaTime);
     
         transform.rotation = targetRotation;
+    }
+
+    public void HandleSprinting()
+    {
+        if (player.isPerformingAction)
+        {
+            player.isSprinting = false;
+        }
+
+        if(moveAmount >= 0.5)
+        {
+            player.isSprinting = true;
+        }
+        else
+        {
+            player.isSprinting = false;
+        }
+
     }
 
     public void AttemptToPerformDash()

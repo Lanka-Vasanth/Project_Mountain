@@ -11,7 +11,7 @@ public class PlayerAnimatorManager : CharacterAnimatorManager
         player = GetComponent<PlayerManager>();
     }
 
-    private void OimatorMove()
+    private void OnAnimatorMove()
     {
         if (player.applyRootMotion)
         {
@@ -21,4 +21,4 @@ public class PlayerAnimatorManager : CharacterAnimatorManager
         }
     }
 }
- 
+  
