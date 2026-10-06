@@ -18,9 +18,11 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [SerializeField] float walkSpeed = 2;
     [SerializeField] float runSpeed = 5;
     [SerializeField] float sprintSpeed = 15;
+    [SerializeField] float sprintingStaminaCost = 2f; 
 
     [Header("Dash")]
     private Vector3 dashDirection;
+    [SerializeField] int dashStaminaCost = 25;
 
     protected override void Awake()
     {
@@ -108,6 +110,12 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             player.isSprinting = false;
         }
 
+        if(player.currentStamina <= 0)
+        {
+            player.isSprinting = false;
+            return;
+        }
+
         if(moveAmount >= 0.5)
         {
             player.isSprinting = true;
@@ -117,11 +125,21 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             player.isSprinting = false;
         }
 
+        if (player.isSprinting)
+        {
+            player.currentStamina -= sprintingStaminaCost * Time.deltaTime;
+        }
+
     }
 
     public void AttemptToPerformDash()
     {
         if (player.isPerformingAction)
+        {
+            return;
+        }
+
+        if(player.currentStamina <= 0)
         {
             return;
         }
@@ -150,5 +168,6 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             player.playerAnimatorManager.PlayTargetActionAnimation("Backflip", true, true);
         }
 
+        player.currentStamina -= dashStaminaCost;
     }
 }

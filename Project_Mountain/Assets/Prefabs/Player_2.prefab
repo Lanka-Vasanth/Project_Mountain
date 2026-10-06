@@ -1134,6 +1134,7 @@ GameObject:
   - component: {fileID: 6665558044801829568}
   - component: {fileID: 3607579154645566311}
   - component: {fileID: 4690433865502865751}
+  - component: {fileID: 346532423395434147}
   - component: {fileID: 6662116587886259375}
   - component: {fileID: 4539533910413522051}
   m_Layer: 0
@@ -1247,6 +1248,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9dcdcabd612c64ead53c74495fc16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSoundFXManager
+--- !u!114 &346532423395434147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039420566030620751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6519d6bd9defe1459885dd1e1780e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsManager
 --- !u!143 &6662116587886259375
 CharacterController:
   m_ObjectHideFlags: 0
