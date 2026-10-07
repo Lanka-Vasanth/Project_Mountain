@@ -1,3 +1,4 @@
+using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class PlayerManager : CharacterManager
     public PlayerLocomotionManager playerLocomotionManager;
     public PlayerAnimatorManager playerAnimatorManager;
     public PlayerStatsManager playerStatsManager;
+
+    public FixedString64Bytes characterName;
 
     protected override void Awake()
     {
@@ -41,6 +44,26 @@ public class PlayerManager : CharacterManager
         base.LateUpdate();
 
         PlayerCamera.instance.HandleAllCameraActions();
+    }
 
+    public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
+    {
+        currentCharacterData.characterName = characterName.ToString();
+
+        currentCharacterData.xPosition = transform.position.x;
+        currentCharacterData.yPosition = transform.position.y;
+        currentCharacterData.zPosition = transform.position.z;
+
+    }
+
+    public void LoadGameDataFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
+    {
+        characterName = currentCharacterData.characterName;
+        
+        Vector3 myPosition = new Vector3(currentCharacterData.xPosition,
+                                         currentCharacterData.yPosition,
+                                         currentCharacterData.zPosition);
+
+        transform.position = myPosition;
     }
 }
