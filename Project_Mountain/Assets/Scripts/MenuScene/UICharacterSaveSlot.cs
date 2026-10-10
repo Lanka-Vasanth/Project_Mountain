@@ -99,6 +99,10 @@ public class UICharacterSaveSlot : MonoBehaviour
     {
         WorldSaveGameManager.instance.currentCharacterSlotInUse = characterSlot;
         WorldSaveGameManager.instance.LoadGame();
+    }
 
+    public void SelectCurrentSlot()
+    {
+        TitleScreenManager.instance.SelectCharacterSlot(characterSlot);
     }
 }

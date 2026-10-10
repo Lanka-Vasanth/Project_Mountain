@@ -6,6 +6,9 @@ using UnityEngine;
 //REFERENCE THIS DATA FOR EVERY SAVE FILE
 public class CharacterSaveData
 {
+    [Header("SCENE INDEX")]
+    public int sceneIndex = 1;
+
     [Header("Character Name")]
     public string characterName = "Character";
 

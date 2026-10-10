@@ -124,35 +124,35 @@ public class WorldSaveGameManager : MonoBehaviour
             return;
         }
 
-        // saveFileDataWriter.saveFileName = CharacterFileNameDescriptor(CharacterSlot.CharacterSlot_03);
+        saveFileDataWriter.saveFileName = CharacterFileNameDescriptor(CharacterSlot.CharacterSlot_03);
 
-        // if (!saveFileDataWriter.CheckFileExistence())
-        // {
-        //     currentCharacterSlotInUse = CharacterSlot.CharacterSlot_03;
-        //     currentCharacterData = new CharacterSaveData();
-        //     StartCoroutine(LoadWorldScene());
-        //     return;
-        // }
+        if (!saveFileDataWriter.CheckFileExistence())
+        {
+            currentCharacterSlotInUse = CharacterSlot.CharacterSlot_03;
+            currentCharacterData = new CharacterSaveData();
+            StartCoroutine(LoadWorldScene());
+            return;
+        }
 
-        // saveFileDataWriter.saveFileName = CharacterFileNameDescriptor(CharacterSlot.CharacterSlot_04);
+        saveFileDataWriter.saveFileName = CharacterFileNameDescriptor(CharacterSlot.CharacterSlot_04);
 
-        // if (!saveFileDataWriter.CheckFileExistence())
-        // {
-        //     currentCharacterSlotInUse = CharacterSlot.CharacterSlot_04;
-        //     currentCharacterData = new CharacterSaveData();
-        //     StartCoroutine(LoadWorldScene());
-        //     return;
-        // }
+        if (!saveFileDataWriter.CheckFileExistence())
+        {
+            currentCharacterSlotInUse = CharacterSlot.CharacterSlot_04;
+            currentCharacterData = new CharacterSaveData();
+            StartCoroutine(LoadWorldScene());
+            return;
+        }
 
-        // saveFileDataWriter.saveFileName = CharacterFileNameDescriptor(CharacterSlot.CharacterSlot_05);
+        saveFileDataWriter.saveFileName = CharacterFileNameDescriptor(CharacterSlot.CharacterSlot_05);
 
-        // if (!saveFileDataWriter.CheckFileExistence())
-        // {
-        //     currentCharacterSlotInUse = CharacterSlot.CharacterSlot_05;
-        //     currentCharacterData = new CharacterSaveData();
-        //     StartCoroutine(LoadWorldScene());
-        //     return;
-        // }
+        if (!saveFileDataWriter.CheckFileExistence())
+        {
+            currentCharacterSlotInUse = CharacterSlot.CharacterSlot_05;
+            currentCharacterData = new CharacterSaveData();
+            StartCoroutine(LoadWorldScene());
+            return;
+        }
 
         //IF NO FREE SLOTS, NOTIFY PLAYER
         TitleScreenManager.instance.DisplayNoFreeSlotsPopUp();
@@ -190,6 +190,16 @@ public class WorldSaveGameManager : MonoBehaviour
 
     }
 
+    public void DeleteGame(CharacterSlot characterSlot)
+    {
+        //CHOOSE FILE TO DELETE
+        saveFileDataWriter = new SaveFileDataWrite();
+        saveFileDataWriter.saveDataDirectoryPath = Application.persistentDataPath;
+
+        saveFileDataWriter.saveFileName = CharacterFileNameDescriptor(characterSlot);
+        saveFileDataWriter.DeleteSaveFile();
+    }
+
     // LOAD ALL CHARACTER PROFILES ON DEVICE WHEN STARTING GAME
     private void LoadAllCharacterProfiles()
     {
@@ -214,7 +224,7 @@ public class WorldSaveGameManager : MonoBehaviour
 
     public IEnumerator LoadWorldScene()
     {
-        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(worldSceneIndex);
+        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
 
         if (loadOperation == null)
         {
