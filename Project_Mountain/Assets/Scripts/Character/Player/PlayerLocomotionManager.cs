@@ -18,7 +18,8 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [SerializeField] float walkSpeed = 2;
     [SerializeField] float runSpeed = 5;
     [SerializeField] float sprintSpeed = 15;
-    [SerializeField] float sprintingStaminaCost = 2f; 
+    [SerializeField] float sprintingStaminaCost = 2f;
+    [SerializeField] float freeFallSpeed = 2;
 
     [Header("Dash")]
     private Vector3 dashDirection;
@@ -34,6 +35,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     {
         HandleGroundMovement();
         HandleRotation();
+        HandleFreeFallMovement();
     }
 
     private void GetMovementValues()
@@ -73,6 +75,25 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             {
                 player.characterController.Move(moveDirection*walkSpeed*Time.deltaTime);
             }
+        }
+    }
+
+    private void HandleFreeFallMovement()
+    {
+        if (!player.isGrounded)
+        {
+            Vector3 freeFallDirection;
+            Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
+            camForwardDirection.y=0; 
+
+            Vector3 camRightDirection = PlayerCamera.instance.cameraObject.transform.right;
+            camRightDirection.y=0;
+
+            freeFallDirection = camForwardDirection*PlayerInputManager.instance.verticalInput + camRightDirection*PlayerInputManager.instance.horizontalInput;
+            freeFallDirection.y = 0;
+            freeFallDirection.Normalize();
+
+            player.characterController.Move(freeFallDirection*freeFallSpeed*Time.deltaTime);
         }
     }
 
@@ -170,4 +191,5 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
         player.currentStamina -= dashStaminaCost;
     }
+
 }

@@ -104,7 +104,7 @@ public class PlayerInputManager : MonoBehaviour
         HandlePlayerMovementInput();
         HandleCameraMovementInput();
         HandleDashInput();
-        HandleSprinting();
+        HandleSprintInput();
     }
 
     //MOVEMENT
@@ -167,7 +167,7 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
-    private void HandleSprinting()
+    private void HandleSprintInput()
     {
         if (sprintInput)
         {
