@@ -9,7 +9,7 @@ public class WorldSaveGameManager : MonoBehaviour
 {
     public static WorldSaveGameManager instance;
 
-    [SerializeField] PlayerManager playerManager;
+    public PlayerManager player;
 
     [Header("SAVE/LOAD")]
     [SerializeField] bool saveGame;
@@ -97,12 +97,65 @@ public class WorldSaveGameManager : MonoBehaviour
         return fileName;
     }
 
-    public void CreateNewGame()
+    public void AttemptToCreateNewGame()
     {
-        //CREATE NEW FILE< WITH FILE NAME DEPENDING ON SLOT
-        saveFileName = CharacterFileNameDescriptor(currentCharacterSlotInUse);
+        saveFileDataWriter = new SaveFileDataWrite();
+        saveFileDataWriter.saveDataDirectoryPath = Application.persistentDataPath;
 
-        currentCharacterData = new CharacterSaveData();
+        //CHECK IF CAN CREATE NEW SAVE FILE(CHECK EXISTING SAVE FILES FIRST)
+        saveFileDataWriter.saveFileName = CharacterFileNameDescriptor(CharacterSlot.CharacterSlot_01);
+
+        //IF PROFILE SLOT NOT TAKEN< THEN USE
+        if (!saveFileDataWriter.CheckFileExistence())
+        {
+            currentCharacterSlotInUse = CharacterSlot.CharacterSlot_01;
+            currentCharacterData = new CharacterSaveData();
+            StartCoroutine(LoadWorldScene());
+            return;
+        }
+
+        saveFileDataWriter.saveFileName = CharacterFileNameDescriptor(CharacterSlot.CharacterSlot_02);
+
+        if (!saveFileDataWriter.CheckFileExistence())
+        {
+            currentCharacterSlotInUse = CharacterSlot.CharacterSlot_02;
+            currentCharacterData = new CharacterSaveData();
+            StartCoroutine(LoadWorldScene());
+            return;
+        }
+
+        // saveFileDataWriter.saveFileName = CharacterFileNameDescriptor(CharacterSlot.CharacterSlot_03);
+
+        // if (!saveFileDataWriter.CheckFileExistence())
+        // {
+        //     currentCharacterSlotInUse = CharacterSlot.CharacterSlot_03;
+        //     currentCharacterData = new CharacterSaveData();
+        //     StartCoroutine(LoadWorldScene());
+        //     return;
+        // }
+
+        // saveFileDataWriter.saveFileName = CharacterFileNameDescriptor(CharacterSlot.CharacterSlot_04);
+
+        // if (!saveFileDataWriter.CheckFileExistence())
+        // {
+        //     currentCharacterSlotInUse = CharacterSlot.CharacterSlot_04;
+        //     currentCharacterData = new CharacterSaveData();
+        //     StartCoroutine(LoadWorldScene());
+        //     return;
+        // }
+
+        // saveFileDataWriter.saveFileName = CharacterFileNameDescriptor(CharacterSlot.CharacterSlot_05);
+
+        // if (!saveFileDataWriter.CheckFileExistence())
+        // {
+        //     currentCharacterSlotInUse = CharacterSlot.CharacterSlot_05;
+        //     currentCharacterData = new CharacterSaveData();
+        //     StartCoroutine(LoadWorldScene());
+        //     return;
+        // }
+
+        //IF NO FREE SLOTS, NOTIFY PLAYER
+        TitleScreenManager.instance.DisplayNoFreeSlotsPopUp();
     }
 
      public void LoadGame()
@@ -130,7 +183,7 @@ public class WorldSaveGameManager : MonoBehaviour
         saveFileDataWriter.saveFileName = saveFileName;
 
         //PASS PLAYER INFO FROM GAME AT CURRENT TIME TO SAVE FILE
-        playerManager.SaveGameDataToCurrentCharacterData(ref currentCharacterData);
+        player.SaveGameDataToCurrentCharacterData(ref currentCharacterData);
 
         //WRITE THAT INFO ONTO JSON FILE, SAVE TO MACHINE
         saveFileDataWriter.CreateNewCharacterSaveFile(currentCharacterData);
@@ -161,7 +214,30 @@ public class WorldSaveGameManager : MonoBehaviour
 
     public IEnumerator LoadWorldScene()
     {
-        AsyncOperation loadOperator = SceneManager.LoadSceneAsync(worldSceneIndex);
+        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(worldSceneIndex);
+
+        if (loadOperation == null)
+        {
+            Debug.LogError($"Could not start loading scene with build index {worldSceneIndex}.");
+            yield break;
+        }
+
+        yield return new WaitUntil(() => loadOperation.isDone);
+
+        if (player == null)
+        {
+            Debug.LogError("Could not load character data because no PlayerManager was found in the world scene.");
+            yield break;
+        }
+
+        if (currentCharacterData == null)
+        {
+            Debug.LogError("Could not load character data because no save data is loaded.");
+            yield break;
+        }
+
+        player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
+
         yield return null;
     }
 }

@@ -18,6 +18,7 @@ public class PlayerManager : CharacterManager
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         playerStatsManager = GetComponent<PlayerStatsManager>();
 
+        WorldSaveGameManager.instance.player = this;
     }
     protected override void Start()
     {
@@ -64,6 +65,8 @@ public class PlayerManager : CharacterManager
                                          currentCharacterData.yPosition,
                                          currentCharacterData.zPosition);
 
+        characterController.enabled = false;
         transform.position = myPosition;
+        characterController.enabled = true;
     }
 }

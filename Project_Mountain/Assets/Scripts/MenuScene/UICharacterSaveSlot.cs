@@ -30,7 +30,7 @@ public class UICharacterSaveSlot : MonoBehaviour
 
                 if (saveFileWriter.CheckFileExistence())
                 {
-                    characterName .text = WorldSaveGameManager.instance.characterSlot01.characterName;
+                    characterName.text = WorldSaveGameManager.instance.characterSlot01.characterName;
                 }
                 else
                 {
@@ -43,7 +43,7 @@ public class UICharacterSaveSlot : MonoBehaviour
 
                 if (saveFileWriter.CheckFileExistence())
                 {
-                    characterName .text = WorldSaveGameManager.instance.characterSlot02.characterName;
+                    characterName.text = WorldSaveGameManager.instance.characterSlot02.characterName;
                 }
                 else
                 {
@@ -56,7 +56,7 @@ public class UICharacterSaveSlot : MonoBehaviour
 
                 if (saveFileWriter.CheckFileExistence())
                 {
-                    characterName .text = WorldSaveGameManager.instance.characterSlot03.characterName;
+                    characterName.text = WorldSaveGameManager.instance.characterSlot03.characterName;
                 }
                 else
                 {
@@ -69,7 +69,7 @@ public class UICharacterSaveSlot : MonoBehaviour
 
                 if (saveFileWriter.CheckFileExistence())
                 {
-                    characterName .text = WorldSaveGameManager.instance.characterSlot04.characterName;
+                    characterName.text = WorldSaveGameManager.instance.characterSlot04.characterName;
                 }
                 else
                 {
@@ -82,7 +82,7 @@ public class UICharacterSaveSlot : MonoBehaviour
 
                 if (saveFileWriter.CheckFileExistence())
                 {
-                    characterName .text = WorldSaveGameManager.instance.characterSlot05.characterName;
+                    characterName.text = WorldSaveGameManager.instance.characterSlot05.characterName;
                 }
                 else
                 {
@@ -93,5 +93,12 @@ public class UICharacterSaveSlot : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void LoadGameFromCharacterSlot()
+    {
+        WorldSaveGameManager.instance.currentCharacterSlotInUse = characterSlot;
+        WorldSaveGameManager.instance.LoadGame();
+
     }
 }
