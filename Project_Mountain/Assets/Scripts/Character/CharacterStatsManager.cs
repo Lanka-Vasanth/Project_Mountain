@@ -23,11 +23,11 @@ public class CharacterStatsManager : MonoBehaviour
 
     public int CalculateHealthBasedOnVitalityLevel(int vitality)
     {
-        float health = 0;
+        int health = 0;
         
         health = vitality * 10;
 
-        return Mathf.RoundToInt(health);
+        return health;
     }
 
     public int CalculateStaminaBasedOnEnduranceLevel(int endurance)

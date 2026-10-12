@@ -130,6 +130,11 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleSprintInput()
     {
+        if(player == null)
+        {
+            return;
+        }
+
         if (sprintInput)
         {
             player.playerLocomotionManager.HandleSprinting();

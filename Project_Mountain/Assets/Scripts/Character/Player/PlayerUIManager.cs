@@ -5,6 +5,7 @@ public class PlayerUIManager : MonoBehaviour
     public static PlayerUIManager instance;
 
     public PlayerUIHUDManager playerUIHUDManager;
+    public PlayerUIPopUpManager playerUIPopUpManager;
 
     private void Awake()
     {
@@ -18,6 +19,7 @@ public class PlayerUIManager : MonoBehaviour
         }
         
         playerUIHUDManager = GetComponentInChildren<PlayerUIHUDManager>();
+        playerUIPopUpManager = GetComponentInChildren<PlayerUIPopUpManager>();
     }
 
     private void Start()
