@@ -26,19 +26,22 @@ public class PlayerManager : CharacterManager
         PlayerCamera.instance.player = this;
         PlayerInputManager.instance.player = this;
 
+        //UPDATE MAX AMOUNT WHEN STAT IS IS UPGRADED
+        OnVitalityChanged += SetNewMaxHealth;
+        OnEnduranceChanged += SetNewMaxStamina;
+
+        //UPDATES UI STATS BARS< WHEN CHANGES
+        OnHealthChanged += PlayerUIManager.instance.playerUIHUDManager.SetNewHealthValue;
+
         OnStaminaChanged += PlayerUIManager.instance.playerUIHUDManager.SetNewStaminaValue;
         OnStaminaChanged += playerStatsManager.ResetStaminaRegenTimer;
-
-        maxStamina = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(endurance);
-        currentStamina = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(endurance);
-        PlayerUIManager.instance.playerUIHUDManager.SetMaxStaminaValue(maxStamina);
     }
 
     protected override void Update()
     {
         base.Update();
         playerLocomotionManager.HandleAllMovement();
-        playerStatsManager.RegerateStamina();
+        playerStatsManager.RegenerateStamina();
     }
 
     protected override void LateUpdate()
@@ -48,9 +51,26 @@ public class PlayerManager : CharacterManager
         PlayerCamera.instance.HandleAllCameraActions();
     }
 
+    public void SetNewMaxHealth(int oldVitality, int newVitality)
+    {
+        maxHealth = playerStatsManager.CalculateHealthBasedOnVitalityLevel(newVitality);
+        PlayerUIManager.instance.playerUIHUDManager.SetMaxHealthValue(maxHealth);
+        currentHealth = maxHealth;
+    }
+
+    public void SetNewMaxStamina(int oldEndurance, int newEndurance)
+    {
+        maxStamina = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(newEndurance);
+        PlayerUIManager.instance.playerUIHUDManager.SetMaxStaminaValue(maxStamina);
+        currentStamina = maxStamina;
+    }
+
     public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
     {
-        currentCharacterData.sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int activeScene = SceneManager.GetActiveScene().buildIndex;
+        if (activeScene != 0){
+            currentCharacterData.sceneIndex = activeScene;
+        }
 
         currentCharacterData.characterName = characterName.ToString();
 
@@ -58,6 +78,11 @@ public class PlayerManager : CharacterManager
         currentCharacterData.yPosition = transform.position.y;
         currentCharacterData.zPosition = transform.position.z;
 
+        currentCharacterData.currentHealth = currentHealth;
+        currentCharacterData.currentStamina = currentStamina;
+
+        currentCharacterData.vitality = vitality;
+        currentCharacterData.endurance = endurance;
     }
 
     public void LoadGameDataFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
@@ -71,5 +96,16 @@ public class PlayerManager : CharacterManager
         characterController.enabled = false;
         transform.position = myPosition;
         characterController.enabled = true;
+
+        vitality =  currentCharacterData.vitality;
+        endurance = currentCharacterData.endurance;
+
+        maxHealth = playerStatsManager.CalculateHealthBasedOnVitalityLevel(currentCharacterData.vitality);
+        maxStamina = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(currentCharacterData.endurance);
+
+        currentHealth = currentCharacterData.currentHealth;
+        currentStamina = currentCharacterData.currentStamina;
+
+        PlayerUIManager.instance.playerUIHUDManager.SetMaxStaminaValue(maxStamina);
     }
 }

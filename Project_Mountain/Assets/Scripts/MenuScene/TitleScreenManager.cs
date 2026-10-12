@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class TitleScreenManager : MonoBehaviour
 {
     public static TitleScreenManager instance;
+    public GameObject playerPrefab;
 
     [Header("Menu Objects")]
     [SerializeField] GameObject titleScreenMainMenu;
@@ -36,6 +37,11 @@ public class TitleScreenManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void Starter()
+    {
+        Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
     }
 
     public void StartNewGame()

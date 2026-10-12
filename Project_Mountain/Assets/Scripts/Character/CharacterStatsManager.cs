@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterStatsManager : MonoBehaviour
@@ -15,6 +16,20 @@ public class CharacterStatsManager : MonoBehaviour
         character = GetComponent<CharacterManager>();
     }
 
+    protected virtual void Start()
+    {
+        
+    }
+
+    public int CalculateHealthBasedOnVitalityLevel(int vitality)
+    {
+        float health = 0;
+        
+        health = vitality * 10;
+
+        return Mathf.RoundToInt(health);
+    }
+
     public int CalculateStaminaBasedOnEnduranceLevel(int endurance)
     {
         float stamina = 0;
@@ -24,7 +39,8 @@ public class CharacterStatsManager : MonoBehaviour
         return Mathf.RoundToInt(stamina);
     }
 
-    public virtual void RegerateStamina()
+
+    public virtual void RegenerateStamina()
     {
         if (character.isSprinting)
         {

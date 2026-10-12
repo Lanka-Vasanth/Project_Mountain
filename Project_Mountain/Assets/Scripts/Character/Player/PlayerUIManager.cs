@@ -16,7 +16,7 @@ public class PlayerUIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        
         playerUIHUDManager = GetComponentInChildren<PlayerUIHUDManager>();
     }
 

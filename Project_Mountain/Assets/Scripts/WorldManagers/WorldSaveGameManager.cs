@@ -1,8 +1,5 @@
 using System.Collections;
-using System.IO;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class WorldSaveGameManager : MonoBehaviour
@@ -15,9 +12,9 @@ public class WorldSaveGameManager : MonoBehaviour
     [SerializeField] bool saveGame;
     [SerializeField] bool loadGame;
 
-    [Header("World Scene Index")]
-    [SerializeField] int worldSceneIndex = 1;
-
+    // [Header("World Scene Index")]
+    // [SerializeField] int worldSceneIndex = 1;
+    
     [Header("Save Data Writer")]
     private SaveFileDataWrite saveFileDataWriter;
 
@@ -110,7 +107,7 @@ public class WorldSaveGameManager : MonoBehaviour
         {
             currentCharacterSlotInUse = CharacterSlot.CharacterSlot_01;
             currentCharacterData = new CharacterSaveData();
-            StartCoroutine(LoadWorldScene());
+            NewGame();
             return;
         }
 
@@ -120,7 +117,7 @@ public class WorldSaveGameManager : MonoBehaviour
         {
             currentCharacterSlotInUse = CharacterSlot.CharacterSlot_02;
             currentCharacterData = new CharacterSaveData();
-            StartCoroutine(LoadWorldScene());
+            NewGame();
             return;
         }
 
@@ -130,7 +127,7 @@ public class WorldSaveGameManager : MonoBehaviour
         {
             currentCharacterSlotInUse = CharacterSlot.CharacterSlot_03;
             currentCharacterData = new CharacterSaveData();
-            StartCoroutine(LoadWorldScene());
+            NewGame();
             return;
         }
 
@@ -140,7 +137,7 @@ public class WorldSaveGameManager : MonoBehaviour
         {
             currentCharacterSlotInUse = CharacterSlot.CharacterSlot_04;
             currentCharacterData = new CharacterSaveData();
-            StartCoroutine(LoadWorldScene());
+            NewGame();
             return;
         }
 
@@ -150,7 +147,7 @@ public class WorldSaveGameManager : MonoBehaviour
         {
             currentCharacterSlotInUse = CharacterSlot.CharacterSlot_05;
             currentCharacterData = new CharacterSaveData();
-            StartCoroutine(LoadWorldScene());
+            NewGame();
             return;
         }
 
@@ -158,7 +155,15 @@ public class WorldSaveGameManager : MonoBehaviour
         TitleScreenManager.instance.DisplayNoFreeSlotsPopUp();
     }
 
-     public void LoadGame()
+    public void NewGame()
+    {
+        player.vitality = 25;
+        player.endurance = 25;
+        SaveGame();
+        StartCoroutine(LoadWorldScene());
+    }
+
+    public void LoadGame()
     {
         //LOAD PREVIOUS FILE< WITH FILE NAME DEPENDING ON SLOT
         saveFileName = CharacterFileNameDescriptor(currentCharacterSlotInUse);
@@ -225,26 +230,6 @@ public class WorldSaveGameManager : MonoBehaviour
     public IEnumerator LoadWorldScene()
     {
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
-
-        if (loadOperation == null)
-        {
-            Debug.LogError($"Could not start loading scene with build index {worldSceneIndex}.");
-            yield break;
-        }
-
-        yield return new WaitUntil(() => loadOperation.isDone);
-
-        if (player == null)
-        {
-            Debug.LogError("Could not load character data because no PlayerManager was found in the world scene.");
-            yield break;
-        }
-
-        if (currentCharacterData == null)
-        {
-            Debug.LogError("Could not load character data because no save data is loaded.");
-            yield break;
-        }
 
         player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
 
