@@ -1197,15 +1197,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
   characterController: {fileID: 0}
+  characterEffectsManager: {fileID: 0}
+  characterAnimatorManager: {fileID: 0}
   animator: {fileID: 0}
+  isDead: 0
   isPerformingAction: 0
   isGrounded: 1
   isSprinting: 0
+  isGrappling: 0
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
-  endurance: 10
+  maxHealth: 0
+  _currentHealth: 0
   maxStamina: 0
+  _currentStamina: 0
+  _vitality: 10
+  _endurance: 10
+  respawnCharacter: 0
   playerLocomotionManager: {fileID: 0}
   playerAnimatorManager: {fileID: 0}
   playerStatsManager: {fileID: 0}
@@ -1298,6 +1307,7 @@ MonoBehaviour:
   groundedVelocity: -20
   fallStartVelocity: -5
   player: {fileID: 0}
+  debugHitPointTransform: {fileID: 0}
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0
@@ -1308,6 +1318,18 @@ MonoBehaviour:
   sprintingStaminaCost: 2
   freeFallSpeed: 2
   dashStaminaCost: 25
+  grappleLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  grappleMaxRange: 20
+  grappleMinRange: 5
+  grappleFacingAngle: 30
+  grappleLedgeClearance: 3
+  grappleSpeedMin: 40
+  grappleSpeedMax: 80
+  grappleRampTime: 0.5
+  grappleArc: 0.5
+  grappleOvershootDrag: 15
 --- !u!114 &3607579154645566311
 MonoBehaviour:
   m_ObjectHideFlags: 0

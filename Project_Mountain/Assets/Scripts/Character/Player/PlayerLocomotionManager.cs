@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class PlayerLocomotionManager : CharacterLocomotionManager
 {
     public PlayerManager player;
+    [SerializeField] public Transform debugHitPointTransform;
 
     //VALUES WILL BE TAKEN FROM THE INPUTMANAGER
     public float verticalMovement;
@@ -25,6 +27,29 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     private Vector3 dashDirection;
     [SerializeField] int dashStaminaCost = 25;
 
+    [Header("Grapple")]
+    [SerializeField] LayerMask grappleLayer;
+    [SerializeField] float grappleMaxRange = 50f;
+    [SerializeField] float grappleMinRange = 5f;
+    [SerializeField] float grappleFacingAngle = 30f;
+    [SerializeField] float grappleLedgeClearance = 3f;
+    [SerializeField] float grappleSpeedMin = 40f;
+    [SerializeField] float grappleSpeedMax = 80f;
+    [SerializeField] float grappleRampTime = 0.5f;
+    [SerializeField] float grappleArc = 0.5f;
+    [SerializeField] float grappleOvershootDrag = 15f;
+    private Vector3 grapplePosition;
+    private Vector3 grappleDirection;
+    private Vector3 grappleSlideVelocity;
+    private float grappleTimer;
+    private float grappleSpeed;
+    private float grappleOvershoot;
+    private bool grappleWinding;
+    private bool grappleOvershooting;
+    private bool grappleLedge;
+    private readonly Collider[] grappleHit = new Collider[1];
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -36,6 +61,12 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         HandleGroundMovement();
         HandleRotation();
         HandleFreeFallMovement();
+        HandleGrappleMovement();
+    }
+
+    public void ResetGravity()
+    {
+        player.playerLocomotionManager.gravityForce = -40f;
     }
 
     private void GetMovementValues()
@@ -192,4 +223,102 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         player.currentStamina -= dashStaminaCost;
     }
 
+    public void AttemptToPerformGrapple()
+    {
+        if (player.isPerformingAction && !player.isGrappling){
+            return;
+        }
+
+        if (Physics.OverlapSphereNonAlloc(transform.position, grappleMaxRange, grappleHit, grappleLayer) == 0){
+            return;
+        }
+
+        Vector3 grappleAnchorPosition = grappleHit[0].bounds.center;
+        Vector3 grappleFlatDistance = grappleAnchorPosition - transform.position;
+        grappleFlatDistance.y = 0;
+
+        bool isLedge = grappleAnchorPosition.y - transform.position.y > 3f;
+
+        if (isLedge && grappleFlatDistance.magnitude < grappleMinRange){
+            return;
+        }
+
+        if (Vector3.Angle(transform.forward, grappleFlatDistance) > grappleFacingAngle){
+            return;
+        }
+
+        if (isLedge){
+            grapplePosition = grappleAnchorPosition + Vector3.up * grappleLedgeClearance;
+        }
+        else{
+            grapplePosition = new Vector3(grappleAnchorPosition.x, transform.position.y, grappleAnchorPosition.z);
+        }
+
+        if (player.isGrappling)
+        {
+            grappleDirection = (grapplePosition - transform.position).normalized;
+            grappleOvershooting = false;
+            return;
+        }
+
+        player.isGrappling = true;
+        grappleWinding = true;
+        grappleOvershooting = false;
+        player.playerAnimatorManager.PlayTargetActionAnimation("Grapple", true, false);
+    }
+
+    // ANIMATION EVENT ON THE GRAPPLE ANIMATION
+    public void StartGrapple()
+    {
+        grappleWinding = false;
+        grappleTimer = 0f;
+        grappleDirection = (grapplePosition - transform.position).normalized;
+        yVelocity = Vector3.zero;
+    }
+
+    private void HandleGrappleMovement()
+    {
+        if (!player.isGrappling || grappleWinding){
+            return;
+        }
+
+        if (grappleOvershooting){
+            grappleSlideVelocity *= Mathf.Exp(-grappleOvershootDrag * Time.deltaTime);
+            player.characterController.Move(grappleSlideVelocity * Time.deltaTime);
+
+            if (grappleSlideVelocity.sqrMagnitude < 4f)
+            {
+                player.isGrappling = false;
+                player.isPerformingAction = false;
+                player.canMove = true;
+                player.canRotate = true;
+            }
+            return;
+        }
+
+        grappleTimer += Time.deltaTime;
+        float t = Mathf.Clamp01(grappleTimer / grappleRampTime);
+        grappleSpeed = Mathf.Lerp(grappleSpeedMin, grappleSpeedMax, t);
+
+        Vector3 step = grappleDirection * grappleSpeed * Time.deltaTime;
+        player.characterController.Move(step);
+
+        Vector3 moveDirection = grappleDirection;
+        if (grappleLedge)
+        {
+            Vector3 launch = Vector3.Slerp(grappleDirection, Vector3.up, grappleArc);
+            moveDirection = Vector3.Slerp(launch, grappleDirection, t);
+        }
+
+        yVelocity = Vector3.zero;
+        player.characterController.Move(moveDirection * grappleSpeed * Time.deltaTime);
+
+        if (Vector3.Dot(grapplePosition - transform.position, grappleDirection) <= 0f || grappleTimer > 3f)
+        {
+            grappleOvershooting = true;
+            grappleSlideVelocity = moveDirection * grappleSpeed;
+            yVelocity = Vector3.zero;
+            fallingVelocitySetCheck = true;
+        }
+    }
 }
