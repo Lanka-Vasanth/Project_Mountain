@@ -1321,15 +1321,15 @@ MonoBehaviour:
   grappleLayer:
     serializedVersion: 2
     m_Bits: 2048
-  grappleMaxRange: 20
+  grappleMaxRange: 30
   grappleMinRange: 5
-  grappleFacingAngle: 30
+  grappleFacingAngle: 15
   grappleLedgeClearance: 3
-  grappleSpeedMin: 40
-  grappleSpeedMax: 80
+  grappleSpeedMin: 80
+  grappleSpeedMax: 150
   grappleRampTime: 0.5
   grappleArc: 0.5
-  grappleOvershootDrag: 15
+  grappleOvershootDrag: 20
 --- !u!114 &3607579154645566311
 MonoBehaviour:
   m_ObjectHideFlags: 0

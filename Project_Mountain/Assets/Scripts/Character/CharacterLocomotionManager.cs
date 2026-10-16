@@ -49,4 +49,6 @@ public class CharacterLocomotionManager : MonoBehaviour
     {   
         Gizmos.DrawSphere(character.transform.position, groundCheckSphereRadius);
     }
+
+    
 }

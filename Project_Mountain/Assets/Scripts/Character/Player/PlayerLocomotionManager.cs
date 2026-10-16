@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+using System.IO;
 
 public class PlayerLocomotionManager : CharacterLocomotionManager
 {
@@ -31,7 +32,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [SerializeField] LayerMask grappleLayer;
     [SerializeField] float grappleMaxRange = 50f;
     [SerializeField] float grappleMinRange = 5f;
-    [SerializeField] float grappleFacingAngle = 30f;
+    [SerializeField] float grappleFacingAngle = 15f;
     [SerializeField] float grappleLedgeClearance = 3f;
     [SerializeField] float grappleSpeedMin = 40f;
     [SerializeField] float grappleSpeedMax = 80f;
@@ -43,11 +44,10 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     private Vector3 grappleSlideVelocity;
     private float grappleTimer;
     private float grappleSpeed;
-    private float grappleOvershoot;
     private bool grappleWinding;
     private bool grappleOvershooting;
     private bool grappleLedge;
-    private readonly Collider[] grappleHit = new Collider[1];
+    private Collider[] grappleHits = new Collider[10];
 
 
     protected override void Awake()
@@ -229,34 +229,66 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             return;
         }
 
-        if (Physics.OverlapSphereNonAlloc(transform.position, grappleMaxRange, grappleHit, grappleLayer) == 0){
+        Vector3 playerOrigin = transform.position;
+        Vector3 playerForwardDir = transform.forward;
+        playerForwardDir.y = 0f;
+        playerForwardDir.Normalize();
+
+        float cosHalfAngle  = Mathf.Cos(grappleFacingAngle * Mathf.Deg2Rad);
+        float cosSquared = cosHalfAngle*cosHalfAngle;
+        float minRangeSquare = grappleMinRange * grappleMinRange;
+
+        int anchorCount = Physics.OverlapSphereNonAlloc(playerOrigin, grappleMaxRange, grappleHits, grappleLayer, QueryTriggerInteraction.Ignore);
+
+        // PICK NEAREST ANCHOR POINT WITHIN RANGE AND ANGLE WINDOW
+        float finalSquared = float.MaxValue;
+        Vector3 finalAnchorPoint = default;
+        bool finalIsLedge = false;
+        bool anchorFound = false;
+
+        for(int i = 0; i < anchorCount; i++)
+        {
+            Vector3 grappleAnchorPosition  = grappleHits[i].bounds.center;
+            Vector3 grappleFlatDistance = grappleAnchorPosition - playerOrigin;
+            bool isLedge = grappleFlatDistance.y > 3f;
+            grappleFlatDistance.y = 0f;
+
+            float sqr = grappleFlatDistance.sqrMagnitude;
+            if(sqr >= finalSquared || sqr < 0.00001f)
+            {
+                continue;
+            }
+            if(isLedge && sqr < minRangeSquare)
+            {
+                continue;
+            }
+
+            float along = Vector3.Dot(playerForwardDir, grappleFlatDistance);
+            if(along <= 0f || along*along < cosSquared * sqr)
+            {
+                continue;
+            }
+
+            finalSquared = sqr;
+            finalAnchorPoint = grappleAnchorPosition;
+            finalIsLedge = isLedge;
+            anchorFound = true;
+        }
+
+        if (!anchorFound)
+        {
             return;
         }
 
-        Vector3 grappleAnchorPosition = grappleHit[0].bounds.center;
-        Vector3 grappleFlatDistance = grappleAnchorPosition - transform.position;
-        grappleFlatDistance.y = 0;
+        grappleLedge = finalIsLedge;
 
-        bool isLedge = grappleAnchorPosition.y - transform.position.y > 3f;
-
-        if (isLedge && grappleFlatDistance.magnitude < grappleMinRange){
-            return;
-        }
-
-        if (Vector3.Angle(transform.forward, grappleFlatDistance) > grappleFacingAngle){
-            return;
-        }
-
-        if (isLedge){
-            grapplePosition = grappleAnchorPosition + Vector3.up * grappleLedgeClearance;
-        }
-        else{
-            grapplePosition = new Vector3(grappleAnchorPosition.x, transform.position.y, grappleAnchorPosition.z);
-        }
+        grapplePosition = finalIsLedge
+        ? finalAnchorPoint + Vector3.up * grappleLedgeClearance
+        : new Vector3(finalAnchorPoint.x, playerOrigin.y, finalAnchorPoint.z);
 
         if (player.isGrappling)
         {
-            grappleDirection = (grapplePosition - transform.position).normalized;
+            grappleDirection = (grapplePosition - playerOrigin).normalized;
             grappleOvershooting = false;
             return;
         }
@@ -300,8 +332,8 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         float t = Mathf.Clamp01(grappleTimer / grappleRampTime);
         grappleSpeed = Mathf.Lerp(grappleSpeedMin, grappleSpeedMax, t);
 
-        Vector3 step = grappleDirection * grappleSpeed * Time.deltaTime;
-        player.characterController.Move(step);
+        // Vector3 step = grappleDirection * grappleSpeed * Time.deltaTime;
+        // player.characterController.Move(step);
 
         Vector3 moveDirection = grappleDirection;
         if (grappleLedge)
