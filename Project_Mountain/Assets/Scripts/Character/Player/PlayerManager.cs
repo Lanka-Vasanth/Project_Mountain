@@ -1,6 +1,6 @@
 using System.Collections;
 using Unity.Collections;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,12 +8,34 @@ public class PlayerManager : CharacterManager
 {
     [Header("DEBUG MENU")]
     [SerializeField] bool respawnCharacter = false;
+    [SerializeField] bool switchRightWeapon = false; 
+    [SerializeField] bool switchLeftWeapon = false; 
 
     public PlayerLocomotionManager playerLocomotionManager;
     public PlayerAnimatorManager playerAnimatorManager;
     public PlayerStatsManager playerStatsManager;
+    public PlayerInventoryManager playerInventoryManager;
+    public PlayerEquipmentManager playerEquipmentManager;
+    public PlayerCombatManager playerCombatManager;
 
     public FixedString64Bytes characterName;
+
+    public event Action<int, int> OnCurrentWeaponChanged;
+    public int _currentWeaponInUse;
+    public int currentWeaponInUse
+    {
+        get =>_currentWeaponInUse;
+        set
+        {
+            if (_currentWeaponInUse == value)
+                return;
+
+            int oldValue = _currentWeaponInUse;
+            _currentRightHandWeaponID = value;
+            OnCurrentWeaponChanged?.Invoke(oldValue, _currentWeaponInUse);
+        }
+    }
+
 
     protected override void Awake()
     {
@@ -22,9 +44,13 @@ public class PlayerManager : CharacterManager
         playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         playerStatsManager = GetComponent<PlayerStatsManager>();
-
+        playerInventoryManager = GetComponent<PlayerInventoryManager>();
+        playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
+        playerCombatManager = GetComponent<PlayerCombatManager>();
+        
         WorldSaveGameManager.instance.player = this;
     }
+
     protected override void Start()
     {
         PlayerCamera.instance.player = this;
@@ -39,6 +65,10 @@ public class PlayerManager : CharacterManager
 
         OnStaminaChanged += PlayerUIManager.instance.playerUIHUDManager.SetNewStaminaValue;
         OnStaminaChanged += playerStatsManager.ResetStaminaRegenTimer;
+
+        OnRightHandWeaponIDChanged += OnCurrentRightHandWeaponChange;
+        OnLeftHandWeaponIDChanged += OnCurrentLeftHandWeaponChange;
+        OnCurrentWeaponChanged += OnCurrentWeaponInUseIDChange;
 
         OnHealthChanged += CheckHP;
     }
@@ -88,6 +118,26 @@ public class PlayerManager : CharacterManager
         maxStamina = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(newEndurance);
         PlayerUIManager.instance.playerUIHUDManager.SetMaxStaminaValue(maxStamina);
         currentStamina = maxStamina;
+    }
+
+    public void OnCurrentRightHandWeaponChange(int oldID, int newID)
+    {
+        WeaponItem newWeapon =  Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
+        playerInventoryManager.currentRightHandWeapon = newWeapon;
+        playerEquipmentManager.LoadRightWeapon();
+    }
+
+    public void OnCurrentLeftHandWeaponChange(int oldID, int newID)
+    {
+        WeaponItem newWeapon = Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
+        playerInventoryManager.currentLeftHandWeapon = newWeapon;
+        playerEquipmentManager.LoadLeftWeapon();
+    }
+
+    public void OnCurrentWeaponInUseIDChange(int oldID, int newID)
+    {
+        WeaponItem newWeapon = Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
+        playerCombatManager.currentWeaponInUse = newWeapon;
     }
 
     public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
@@ -140,6 +190,18 @@ public class PlayerManager : CharacterManager
         {
             respawnCharacter = false;
             ReviveCharacter();
+        }
+
+        if (switchRightWeapon)
+        {
+            switchRightWeapon = false;
+            playerEquipmentManager.SwitchRightWeapon();
+        }
+
+        if (switchLeftWeapon)
+        {
+            switchLeftWeapon = false;
+            playerEquipmentManager.SwitchLeftWeapon();
         }
     }
 }

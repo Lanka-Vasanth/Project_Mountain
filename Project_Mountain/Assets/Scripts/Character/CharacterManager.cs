@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
@@ -25,7 +26,9 @@ public class CharacterManager : MonoBehaviour
     public event Action<float, float> OnStaminaChanged;
     public event Action<int, int> OnVitalityChanged;
     public event Action<int, int> OnEnduranceChanged;
-    
+    public event Action<int, int> OnRightHandWeaponIDChanged;
+    public event Action<int, int> OnLeftHandWeaponIDChanged;
+
     [Header("Resources")]
     public int maxHealth = 0;
     [SerializeField]private int _currentHealth;
@@ -89,6 +92,37 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
+    [Header("Equipment")]
+    public int _currentRightHandWeaponID;
+    public int currentRightHandWeaponID
+    {
+        get =>_currentRightHandWeaponID;
+        set
+        {
+            if (_currentRightHandWeaponID == value)
+                return;
+
+            int oldValue = _currentRightHandWeaponID;
+            _currentRightHandWeaponID = value;
+            OnRightHandWeaponIDChanged?.Invoke(oldValue, _currentRightHandWeaponID);
+        }
+    }
+
+    public int _currentLeftHandWeaponID;
+    public int currentLeftHandWeaponID
+    {
+        get =>_currentLeftHandWeaponID;
+        set
+        {
+            if (_currentLeftHandWeaponID == value)
+                return;
+
+            int oldValue = _currentLeftHandWeaponID;
+            _currentLeftHandWeaponID = value;
+            OnLeftHandWeaponIDChanged?.Invoke(oldValue, _currentLeftHandWeaponID);
+        }
+    }
+
     protected virtual void Awake()
     {
         DontDestroyOnLoad(this);
@@ -102,7 +136,7 @@ public class CharacterManager : MonoBehaviour
 
     protected virtual void Start()
     {
-        
+        IgnoreOwnColliders();
     }
 
     protected virtual void Update()
@@ -151,5 +185,29 @@ public class CharacterManager : MonoBehaviour
     public virtual void ReviveCharacter()
     {
         
+    }
+
+    protected virtual void IgnoreOwnColliders()
+    {
+        Collider characterControllerCollider = GetComponent<Collider>();
+
+        Collider[] damageableCharacterColliders = GetComponentsInChildren<Collider>();
+        
+        List<Collider> ignoreColliders = new List<Collider>();
+
+        foreach(var collider in damageableCharacterColliders)
+        {
+            ignoreColliders.Add(collider);
+        }
+
+        ignoreColliders.Add(characterControllerCollider);
+
+        foreach(var collider in ignoreColliders)
+        {
+            foreach(var otherCollider in ignoreColliders)
+            {
+                Physics.IgnoreCollision(collider, otherCollider, true);
+            }
+        }
     }
 }

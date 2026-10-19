@@ -73,7 +73,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6134460166354902018}
-  m_Layer: 6
+  - component: {fileID: 6009649189738984035}
+  m_Layer: 7
   m_Name: B_L_Forearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,6 +97,29 @@ Transform:
   - {fileID: 4024095763668058419}
   m_Father: {fileID: 1810552214525442036}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &6009649189738984035
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181108865854031883}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.12
+  m_Height: 0.87
+  m_Direction: 0
+  m_Center: {x: -0.36, y: 0, z: 0}
 --- !u!1 &392604788386660258
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,6 +410,7 @@ Transform:
   - {fileID: 5412965204628224942}
   - {fileID: 3829367348181432649}
   - {fileID: 6968020008878368821}
+  - {fileID: 6287074127839462232}
   m_Father: {fileID: 6134460166354902018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1850551108821469394
@@ -898,6 +923,52 @@ Transform:
   - {fileID: 1810552214525442036}
   m_Father: {fileID: 1628588278073360141}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4638048482834236942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6287074127839462232}
+  - component: {fileID: 6939357120097699310}
+  m_Layer: 6
+  m_Name: Weapon Model Instantiation Slot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6287074127839462232
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4638048482834236942}
+  serializedVersion: 2
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4024095763668058419}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+--- !u!114 &6939357120097699310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4638048482834236942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7606ba4a63c4ad45b3bb7ca75e74b6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponModelInstantiationSlot
+  weaponModelSlot: 1
+  currentWeaponModel: {fileID: 0}
 --- !u!1 &4664124242402334875
 GameObject:
   m_ObjectHideFlags: 0
@@ -1135,9 +1206,13 @@ GameObject:
   - component: {fileID: 3607579154645566311}
   - component: {fileID: 4690433865502865751}
   - component: {fileID: 346532423395434147}
+  - component: {fileID: 7188254650399806205}
+  - component: {fileID: 7166262403864462308}
+  - component: {fileID: 5629230502059264640}
+  - component: {fileID: 99023962842227039}
   - component: {fileID: 6662116587886259375}
   - component: {fileID: 4539533910413522051}
-  - component: {fileID: 7188254650399806205}
+  - component: {fileID: 2369996870528677066}
   m_Layer: 6
   m_Name: Player_2
   m_TagString: Untagged
@@ -1214,10 +1289,17 @@ MonoBehaviour:
   _currentStamina: 0
   _vitality: 10
   _endurance: 10
+  _currentRightHandWeaponID: 0
+  _currentLeftHandWeaponID: 0
   respawnCharacter: 0
+  switchRightWeapon: 0
+  switchLeftWeapon: 0
   playerLocomotionManager: {fileID: 0}
   playerAnimatorManager: {fileID: 0}
   playerStatsManager: {fileID: 0}
+  playerInventoryManager: {fileID: 0}
+  playerEquipmentManager: {fileID: 0}
+  playerCombatManager: {fileID: 0}
   characterName:
     utf8LengthInBytes: 0
     bytes:
@@ -1286,6 +1368,7 @@ MonoBehaviour:
       byte0059: 0
       byte0060: 0
       byte0061: 0
+  _currentWeaponInUse: 0
 --- !u!114 &6665558044801829568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1368,6 +1451,75 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsManager
   staminaRegenAmount: 2
   staminaRegenerationDelay: 2
+--- !u!114 &7188254650399806205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039420566030620751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c337e66f0a519424bacbd6245deaa48a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerEffectsManager
+  effectToTest: {fileID: 0}
+  processEffect: 0
+--- !u!114 &7166262403864462308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039420566030620751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84814c1d01ade0440954de3b275c2d82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  rightHandSlot: {fileID: 0}
+  leftHandSlot: {fileID: 0}
+  rightWeaponManager: {fileID: 0}
+  leftWeaponManager: {fileID: 0}
+  rightHandWeaponModel: {fileID: 0}
+  leftHandWeaponModel: {fileID: 0}
+--- !u!114 &5629230502059264640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039420566030620751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a305d4deb729354abef6a4a8ef47da7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  currentRightHandWeapon: {fileID: 11400000, guid: 8c69e0ff586e8ca4e8ac3fc178521c55, type: 2}
+  currentLeftHandWeapon: {fileID: 11400000, guid: caff48e2f0473a54aa1d14290f5a2afe, type: 2}
+  weaponsInRightHandSlots:
+  - {fileID: 11400000, guid: 8c69e0ff586e8ca4e8ac3fc178521c55, type: 2}
+  - {fileID: 11400000, guid: caff48e2f0473a54aa1d14290f5a2afe, type: 2}
+  - {fileID: 11400000, guid: caff48e2f0473a54aa1d14290f5a2afe, type: 2}
+  leftHandWeaponIndex: 0
+  weaponsInLeftHandSlots:
+  - {fileID: 11400000, guid: caff48e2f0473a54aa1d14290f5a2afe, type: 2}
+  - {fileID: 11400000, guid: caff48e2f0473a54aa1d14290f5a2afe, type: 2}
+  - {fileID: 11400000, guid: caff48e2f0473a54aa1d14290f5a2afe, type: 2}
+  rightHandWeaponIndex: 0
+--- !u!114 &99023962842227039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039420566030620751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8afc66d1043d67e4cb9c7224e79c089a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatManager
+  currentWeaponInUse: {fileID: 0}
 --- !u!143 &6662116587886259375
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1490,20 +1642,33 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7188254650399806205
-MonoBehaviour:
+--- !u!54 &2369996870528677066
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6039420566030620751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c337e66f0a519424bacbd6245deaa48a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerEffectsManager
-  effectToTest: {fileID: 0}
-  processEffect: 0
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6056007213745592508
 GameObject:
   m_ObjectHideFlags: 0
@@ -2166,6 +2331,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8073714177729795608}
+  - component: {fileID: 8978581443471488405}
   m_Layer: 6
   m_Name: B_R_Hand
   m_TagString: Untagged
@@ -2193,6 +2359,20 @@ Transform:
   - {fileID: 6316528784144822551}
   m_Father: {fileID: 2540629482097139733}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8978581443471488405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8451730667312747342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7606ba4a63c4ad45b3bb7ca75e74b6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  weaponModelSlot: 0
+  currentWeaponModel: {fileID: 0}
 --- !u!1 &9149165247634900412
 GameObject:
   m_ObjectHideFlags: 0

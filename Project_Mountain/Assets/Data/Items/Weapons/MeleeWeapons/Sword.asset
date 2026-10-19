@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c21f52456bbaa2f43b948d2852940931, type: 3}
+  m_Name: Sword
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeWeaponItem
+  itemName: Sword
+  itemIcon: {fileID: 0}
+  itemDescription: A Sword
+  itemID: 0
+  weaponModel: {fileID: 2965121973760216126, guid: 1ce8b627b3b6d6e4d98457fa9858e16f, type: 3}
+  physicalDamage: 0
+  fireDamage: 0
+  lightningDamage: 0
+  iceDamage: 0
+  poisonDamage: 0
+  poiseDamage: 10
+  baseStaminaCost: 20
+  r1_Action: {fileID: 11400000, guid: 7a5c8a0d4883b9b42b7b3331b7645142, type: 2}

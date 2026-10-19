@@ -26,6 +26,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool dashInput = false;
     [SerializeField] bool sprintInput = false;
     [SerializeField] bool grappleInput = false;
+    [SerializeField] bool r1Input = false;
 
  
     private void Awake()
@@ -53,6 +54,7 @@ public class PlayerInputManager : MonoBehaviour
         playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
         playerControls.PlayerActions.Dash.performed += i => dashInput = true;
         playerControls.PlayerActions.Grapple.performed += i => grappleInput = true;
+        playerControls.PlayerActions.R1.performed += i => r1Input = true;
 
         //HOLDING THE INPUT SETS TO TRUE, LEAVING REVERTS TO FALSE
         playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -78,6 +80,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleDashInput();
         HandleSprintInput();
         HandleGrappleInput();
+        HandleR1Input();
     }
 
     //MOVEMENT
@@ -155,6 +158,16 @@ public class PlayerInputManager : MonoBehaviour
             grappleInput = false;
 
             player.playerLocomotionManager.AttemptToPerformGrapple();
+        }
+    }
+
+    private void HandleR1Input()
+    {
+        if (r1Input)
+        {
+            r1Input = false;
+
+            player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.r1_Action, player.playerInventoryManager.currentRightHandWeapon);
         }
     }
 }

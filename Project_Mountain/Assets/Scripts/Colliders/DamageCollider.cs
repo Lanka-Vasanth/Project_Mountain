@@ -4,6 +4,9 @@ using UnityEngine.TextCore.Text;
 
 public class DamageCollider : MonoBehaviour
 {
+    [Header("Collider")]
+    protected Collider damageCollider;
+
     [Header("Damage")]
     public float physicalDamage = 0;
     public float fireDamage = 0;
@@ -17,24 +20,20 @@ public class DamageCollider : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        // CHECK IF OBJECT IS CHARACTER 
-        if(other.gameObject.layer == LayerMask.NameToLayer("Character"))
+        CharacterManager damageTarget = other.GetComponentInParent<CharacterManager>();
+
+        if (damageTarget != null)
         {
-            CharacterManager damageTarget = other.GetComponent<CharacterManager>();
+            contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
 
-            if (damageTarget != null)
-            {
-                contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+            //CHECK IF WE CAN DAMAGE THIS TARGET
 
-                //CHECK IF WE CAN DAMAGE THIS TARGET
+            //CHECK IF TARGET IS BLOCKING 
 
-                //CHECK IF TARGET IS BLOCKING 
+            //CHECK IF TARGET IS INVULNERABILITY
 
-                //CHECK IF TARGET IS INVULNERABILITY
-
-                //DAMAGE TARGET
-                DamageTarget(damageTarget);
-            }
+            //DAMAGE TARGET
+            DamageTarget(damageTarget);
         }
     }
 
@@ -54,6 +53,17 @@ public class DamageCollider : MonoBehaviour
         damageEffect.contactPoint = contactPoint;
 
         damageTarget.characterEffectsManager.ProcessInstantEffects(damageEffect);
+    }
+
+    public virtual void EnableDamageCollider()
+    {
+        damageCollider.enabled = true;
+    }
+
+    public virtual void DisableDamageCollider()
+    {
+        damageCollider.enabled = false;
+        charactersDamaged.Clear();
     }
 
 }
