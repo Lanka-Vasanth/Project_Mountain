@@ -34,6 +34,8 @@ public class WorldItemDatabase : MonoBehaviour
         {
             items[i].itemID = i; 
         }
+
+        DontDestroyOnLoad(gameObject);
     }
 
     public WeaponItem GetWeaponByID(int ID)

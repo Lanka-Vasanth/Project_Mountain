@@ -5,6 +5,7 @@ public class WeaponItem : Item
     //ANIMATOR CONTROLLER OVERRIDE
     [Header("Weapon Model")]
     public GameObject weaponModel;
+    public bool isTwoHanded = false;
 
     //COMES LATER
     [Header("Weapon Requirements")]

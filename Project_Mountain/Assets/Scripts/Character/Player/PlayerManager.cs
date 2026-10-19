@@ -8,8 +8,7 @@ public class PlayerManager : CharacterManager
 {
     [Header("DEBUG MENU")]
     [SerializeField] bool respawnCharacter = false;
-    [SerializeField] bool switchRightWeapon = false; 
-    [SerializeField] bool switchLeftWeapon = false; 
+    [SerializeField] bool switchWeapon = false; 
 
     public PlayerLocomotionManager playerLocomotionManager;
     public PlayerAnimatorManager playerAnimatorManager;
@@ -31,7 +30,7 @@ public class PlayerManager : CharacterManager
                 return;
 
             int oldValue = _currentWeaponInUse;
-            _currentRightHandWeaponID = value;
+            _currentWeaponInUse = value;
             OnCurrentWeaponChanged?.Invoke(oldValue, _currentWeaponInUse);
         }
     }
@@ -66,8 +65,7 @@ public class PlayerManager : CharacterManager
         OnStaminaChanged += PlayerUIManager.instance.playerUIHUDManager.SetNewStaminaValue;
         OnStaminaChanged += playerStatsManager.ResetStaminaRegenTimer;
 
-        OnRightHandWeaponIDChanged += OnCurrentRightHandWeaponChange;
-        OnLeftHandWeaponIDChanged += OnCurrentLeftHandWeaponChange;
+        OnHandWeaponIDChanged += OnCurrentHandWeaponChange;
         OnCurrentWeaponChanged += OnCurrentWeaponInUseIDChange;
 
         OnHealthChanged += CheckHP;
@@ -120,18 +118,11 @@ public class PlayerManager : CharacterManager
         currentStamina = maxStamina;
     }
 
-    public void OnCurrentRightHandWeaponChange(int oldID, int newID)
+    public void OnCurrentHandWeaponChange(int oldID, int newID)
     {
         WeaponItem newWeapon =  Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
-        playerInventoryManager.currentRightHandWeapon = newWeapon;
-        playerEquipmentManager.LoadRightWeapon();
-    }
-
-    public void OnCurrentLeftHandWeaponChange(int oldID, int newID)
-    {
-        WeaponItem newWeapon = Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
-        playerInventoryManager.currentLeftHandWeapon = newWeapon;
-        playerEquipmentManager.LoadLeftWeapon();
+        playerInventoryManager.currentInHandWeapon = newWeapon;
+        playerEquipmentManager.LoadWeapon();
     }
 
     public void OnCurrentWeaponInUseIDChange(int oldID, int newID)
@@ -192,16 +183,10 @@ public class PlayerManager : CharacterManager
             ReviveCharacter();
         }
 
-        if (switchRightWeapon)
+        if (switchWeapon)
         {
-            switchRightWeapon = false;
-            playerEquipmentManager.SwitchRightWeapon();
-        }
-
-        if (switchLeftWeapon)
-        {
-            switchLeftWeapon = false;
-            playerEquipmentManager.SwitchLeftWeapon();
+            switchWeapon = false;
+            playerEquipmentManager.SwitchWeapon();
         }
     }
 }

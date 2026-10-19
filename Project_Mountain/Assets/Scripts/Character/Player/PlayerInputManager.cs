@@ -167,7 +167,7 @@ public class PlayerInputManager : MonoBehaviour
         {
             r1Input = false;
 
-            player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.r1_Action, player.playerInventoryManager.currentRightHandWeapon);
+            player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentInHandWeapon.r1_Action, player.playerInventoryManager.currentInHandWeapon);
         }
     }
 }

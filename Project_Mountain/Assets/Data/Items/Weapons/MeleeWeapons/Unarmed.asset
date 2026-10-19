@@ -17,6 +17,7 @@ MonoBehaviour:
   itemDescription: 
   itemID: 0
   weaponModel: {fileID: 169473453406124492, guid: a8c7bea13ca08544fa537f29de111834, type: 3}
+  isTwoHanded: 1
   physicalDamage: 0
   fireDamage: 0
   lightningDamage: 0
@@ -24,3 +25,4 @@ MonoBehaviour:
   poisonDamage: 0
   poiseDamage: 0
   baseStaminaCost: 0
+  r1_Action: {fileID: 11400000, guid: 7a5c8a0d4883b9b42b7b3331b7645142, type: 2}

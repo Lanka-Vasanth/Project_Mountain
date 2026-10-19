@@ -26,8 +26,7 @@ public class CharacterManager : MonoBehaviour
     public event Action<float, float> OnStaminaChanged;
     public event Action<int, int> OnVitalityChanged;
     public event Action<int, int> OnEnduranceChanged;
-    public event Action<int, int> OnRightHandWeaponIDChanged;
-    public event Action<int, int> OnLeftHandWeaponIDChanged;
+    public event Action<int, int> OnHandWeaponIDChanged;
 
     [Header("Resources")]
     public int maxHealth = 0;
@@ -93,33 +92,18 @@ public class CharacterManager : MonoBehaviour
     }
 
     [Header("Equipment")]
-    public int _currentRightHandWeaponID;
-    public int currentRightHandWeaponID
+    public int _currentInHandWeaponID;
+    public int currentInHandWeaponID
     {
-        get =>_currentRightHandWeaponID;
+        get =>_currentInHandWeaponID;
         set
         {
-            if (_currentRightHandWeaponID == value)
+            if (_currentInHandWeaponID == value)
                 return;
 
-            int oldValue = _currentRightHandWeaponID;
-            _currentRightHandWeaponID = value;
-            OnRightHandWeaponIDChanged?.Invoke(oldValue, _currentRightHandWeaponID);
-        }
-    }
-
-    public int _currentLeftHandWeaponID;
-    public int currentLeftHandWeaponID
-    {
-        get =>_currentLeftHandWeaponID;
-        set
-        {
-            if (_currentLeftHandWeaponID == value)
-                return;
-
-            int oldValue = _currentLeftHandWeaponID;
-            _currentLeftHandWeaponID = value;
-            OnLeftHandWeaponIDChanged?.Invoke(oldValue, _currentLeftHandWeaponID);
+            int oldValue = _currentInHandWeaponID;
+            _currentInHandWeaponID = value;
+            OnHandWeaponIDChanged?.Invoke(oldValue, _currentInHandWeaponID);
         }
     }
 

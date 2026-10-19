@@ -45,4 +45,28 @@ public class CharacterAnimatorManager : MonoBehaviour
         character.canMove = canMove;
         character.canRotate = canRotate;
     }
+
+    public virtual void PlayTargetAttackActionAnimation(string targetAnimation, 
+                                                  bool isPerformingAction, 
+                                                  bool applyRootMotion = true, 
+                                                  bool canRotate = false, 
+                                                  bool canMove = false)
+    {
+        //KEEP TRACK OF LAST ATTACK PERFORMED FOR COMBOS
+
+        //KEEP TRACK OF CURRENT ATTACK TYPE (LIGHT, HEAVY)
+
+        //UPDATE ANIMATION SET TO CURRENT WEAPON ANIAMTIONS
+
+        //DECIDE IF ATTACK CAN BE PARRIED
+
+        character.applyRootMotion = applyRootMotion;
+        character.animator.CrossFade(targetAnimation, 0.2f);
+
+        //STOPS CHARACTER FROM ATTEMPTING NEW ACTIONS,
+        //EXAMPLE IF DAMAGED, PREVENTS STUNLOCKING 
+        character.isPerformingAction = isPerformingAction;
+        character.canMove = canMove;
+        character.canRotate = canRotate;
+    }
 }

@@ -10,7 +10,6 @@ public class WeaponItemAction : ScriptableObject
         playerPerformingAction.currentWeaponInUse = weaponPerformingAction.itemID;
 
         Debug.Log("ACTION HAS BEEN FIRED !!!");
-
     }
 
 }
