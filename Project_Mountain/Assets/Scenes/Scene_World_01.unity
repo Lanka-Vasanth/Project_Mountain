@@ -263,6 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03f7cc58f1aa5124ab4e0760af6bfe69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  damageCollider: {fileID: 0}
   physicalDamage: 300
   fireDamage: 0
   lightningDamage: 0
@@ -615,6 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03f7cc58f1aa5124ab4e0760af6bfe69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  damageCollider: {fileID: 0}
   physicalDamage: 300
   fireDamage: 0
   lightningDamage: 0

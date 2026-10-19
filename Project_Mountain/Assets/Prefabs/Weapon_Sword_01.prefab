@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf18e8efc0f1a734f9bea30cb92e22e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  meleeDamageCollider: {fileID: 0}
+  meleeDamageCollider: {fileID: 5924867069518461777}
 --- !u!1 &3746290839302399889
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +235,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64cfe445f06f18b4c9ffbe11442d0a29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeWeaponDamageCollider
+  damageCollider: {fileID: 4466442259252690789}
   physicalDamage: 0
   fireDamage: 0
   lightningDamage: 0
   characterCausingDamage: {fileID: 0}
+  lightAttack_01Modifier: 0

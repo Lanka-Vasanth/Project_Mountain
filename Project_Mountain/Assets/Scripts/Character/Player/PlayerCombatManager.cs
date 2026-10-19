@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerCombatManager : CharacterCombatManager
 {
     PlayerManager player;
+
     public WeaponItem currentWeaponInUse;
 
     protected override void Awake()
@@ -15,6 +16,27 @@ public class PlayerCombatManager : CharacterCombatManager
     public void PerformWeaponBasedAction(WeaponItemAction weaponAction, WeaponItem weaponPerformingAction)
     {
         weaponAction.AttemptToPerformAction(player, weaponPerformingAction);
+    }
+
+    public virtual void DrainStaminaBasedOnAttack()
+    {
+        if(currentWeaponInUse == null)
+        {
+            return;
+        }
+
+        float staminaDeducted = 0;
+
+        switch (currentAttackType)
+        {
+            case AttackType.LightAttack01:
+                staminaDeducted = currentWeaponInUse.baseStaminaCost * currentWeaponInUse.lightAttackStaminaCostModifier;
+                break;
+            default:
+                break;
+        }
+
+        player.currentStamina -= Mathf.RoundToInt(staminaDeducted);
     }
 }
  

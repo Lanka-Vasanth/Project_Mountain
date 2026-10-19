@@ -5,7 +5,7 @@ using UnityEngine.TextCore.Text;
 public class DamageCollider : MonoBehaviour
 {
     [Header("Collider")]
-    protected Collider damageCollider;
+    [SerializeField] protected Collider damageCollider;
 
     [Header("Damage")]
     public float physicalDamage = 0;
@@ -17,8 +17,13 @@ public class DamageCollider : MonoBehaviour
 
     [Header("Characters Dmaaged")]
     protected List<CharacterManager> charactersDamaged = new List<CharacterManager>();
+
+    protected virtual void Awake()
+    {
+        
+    }
     
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         CharacterManager damageTarget = other.GetComponentInParent<CharacterManager>();
 

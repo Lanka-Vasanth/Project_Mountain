@@ -7,7 +7,8 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
     public WeaponModelInstantiationSlot rightHandSlot;
     public WeaponModelInstantiationSlot leftHandSlot;
 
-    [SerializeField] WeaponManager weaponManager;
+    [SerializeField] WeaponManager rightWeaponManager;
+    [SerializeField] WeaponManager leftWeaponManager;
 
     public GameObject rightHandWeaponModel;
     public GameObject leftHandWeaponModel;
@@ -67,11 +68,11 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             leftHandSlot.LoadWeapon(leftHandWeaponModel);
 
             //ASSIGN WEEAPON DAMAGE TO COLLIDER
-            weaponManager = leftHandWeaponModel.GetComponent<WeaponManager>();
-            weaponManager.SetWeaponDamage(player, player.playerInventoryManager.currentInHandWeapon);
+            leftWeaponManager = leftHandWeaponModel.GetComponent<WeaponManager>();
+            leftWeaponManager.SetWeaponDamage(player, player.playerInventoryManager.currentInHandWeapon);
 
-            weaponManager = rightHandWeaponModel.GetComponent<WeaponManager>();
-            weaponManager.SetWeaponDamage(player, player.playerInventoryManager.currentInHandWeapon);
+            rightWeaponManager = rightHandWeaponModel.GetComponent<WeaponManager>();
+            rightWeaponManager.SetWeaponDamage(player, player.playerInventoryManager.currentInHandWeapon);
         }
     }
 
@@ -136,5 +137,19 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         {
             SwitchWeapon();
         }
-    }    
+    }
+
+    public void OpenDamageCollider()
+    {
+        rightWeaponManager.meleeDamageCollider.EnableDamageCollider();
+        leftWeaponManager.meleeDamageCollider.EnableDamageCollider();
+        //PLAY WHOOSH SFX
+    }
+
+    public void CloseDamageCollider()
+    {
+        rightWeaponManager.meleeDamageCollider.DisableDamageCollider();
+        leftWeaponManager.meleeDamageCollider.DisableDamageCollider();
+
+    }
 }

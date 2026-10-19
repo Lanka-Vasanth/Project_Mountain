@@ -8,6 +8,7 @@ public class CharacterManager : MonoBehaviour
     public CharacterController characterController;
     public CharacterEffectsManager characterEffectsManager;
     public CharacterAnimatorManager characterAnimatorManager;
+    public CharacterCombatManager characterCombatManager;
     public Animator animator;
 
     [Header("Status")]
@@ -115,6 +116,7 @@ public class CharacterManager : MonoBehaviour
         animator = GetComponent<Animator>();
         characterEffectsManager = GetComponent<CharacterEffectsManager>();
         characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+        characterCombatManager = GetComponent<CharacterCombatManager>();
 
     }
 
