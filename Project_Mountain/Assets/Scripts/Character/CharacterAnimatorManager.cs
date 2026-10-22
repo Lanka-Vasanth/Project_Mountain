@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CharacterAnimatorManager : MonoBehaviour
 {
@@ -7,12 +9,58 @@ public class CharacterAnimatorManager : MonoBehaviour
     int vertical;
     int horizontal;
 
+    [Header("Damage Animations")]
+    public string lastAnimationPlayed;
+
+    [SerializeField] public string hitForward01 = "hitForward01";
+    [SerializeField] public string hitBackward01 = "hitBackward01";
+    [SerializeField] public string hitLeftward01 = "hitLeftward01";
+    [SerializeField] public string hitRightward01 = "hitRightward01";
+
+    public List<string> forward_Damage = new List<string>();
+    public List<string> backward_Damage = new List<string>();
+    public List<string> leftward_Damage = new List<string>();
+    public List<string> rightward_Damage = new List<string>();
+
     protected virtual void Awake()
     {
         character = GetComponent<CharacterManager>();
 
         vertical = Animator.StringToHash("Vertical");
         horizontal = Animator.StringToHash("Horizontal");
+    }
+
+    protected virtual void Start()
+    {
+        forward_Damage.Add(hitForward01);
+        backward_Damage.Add(hitBackward01);
+        leftward_Damage.Add(hitLeftward01);
+        rightward_Damage.Add(hitRightward01);
+    }
+
+    public string GetRandomAnimationFromList(List<string> animationList)
+    {
+        List<string> finalList = new List<string>();
+
+        foreach(var item in animationList)
+        {
+            finalList.Add(item);
+        }
+
+        //CHECK FOR A RECENTLY USED ANIM, TO AVOID REPEAT
+        finalList.Remove(lastAnimationPlayed);
+
+        for(int i = finalList.Count - 1; i >= 0; i--)
+        {
+            if(finalList[i] == null)
+            {
+                finalList.RemoveAt(i);
+            }
+        }
+
+        int randomValue = Random.Range(0, finalList.Count);
+
+        return finalList[randomValue];
     }
 
     public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, bool isSprinting)

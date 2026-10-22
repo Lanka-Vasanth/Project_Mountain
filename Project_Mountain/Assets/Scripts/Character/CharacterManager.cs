@@ -9,6 +9,7 @@ public class CharacterManager : MonoBehaviour
     public CharacterEffectsManager characterEffectsManager;
     public CharacterAnimatorManager characterAnimatorManager;
     public CharacterCombatManager characterCombatManager;
+    public CharacterSoundFXManager characterSoundFXManager;
     public Animator animator;
 
     [Header("Status")]
@@ -117,6 +118,7 @@ public class CharacterManager : MonoBehaviour
         characterEffectsManager = GetComponent<CharacterEffectsManager>();
         characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
         characterCombatManager = GetComponent<CharacterCombatManager>();
+        characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
 
     }
 

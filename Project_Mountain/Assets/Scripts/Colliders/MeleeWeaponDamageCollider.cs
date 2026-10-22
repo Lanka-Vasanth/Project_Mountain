@@ -58,6 +58,7 @@ public class MeleeWeaponDamageCollider : DamageCollider
         damageEffect.fireDamage = fireDamage;
         damageEffect.lightningDamage = lightningDamage;
         damageEffect.contactPoint = contactPoint;
+        damageEffect.angleHitFrom = Vector3.SignedAngle(characterCausingDamage.transform.forward, damageTarget.transform.forward, Vector3.up);
 
         switch (characterCausingDamage.characterCombatManager.currentAttackType)
         {
@@ -68,8 +69,7 @@ public class MeleeWeaponDamageCollider : DamageCollider
                 break;
         }
 
-
-        // damageTarget.characterEffectsManager.ProcessInstantEffects(damageEffect);
+        damageTarget.characterEffectsManager.ProcessInstantEffects(damageEffect);
     }
 
     private void ApplyAttackDamageModifiers(float modifier, TakeDamageEffect damage)
