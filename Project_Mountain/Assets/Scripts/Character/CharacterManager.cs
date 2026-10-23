@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class CharacterManager : MonoBehaviour
 {
     public CharacterController characterController;
+    public CharacterLocomotionManager characterLocomotionManager;
     public CharacterEffectsManager characterEffectsManager;
     public CharacterAnimatorManager characterAnimatorManager;
     public CharacterCombatManager characterCombatManager;
@@ -20,6 +22,20 @@ public class CharacterManager : MonoBehaviour
     public bool isGrounded = true;
     public bool isSprinting = false;
     public bool isGrappling = false;
+    public bool _isLockedOn = false;
+    public bool isLockedOn
+    {
+        get =>_isLockedOn;
+        set
+        {
+            if (_isLockedOn == value)
+                return;
+
+            bool oldValue = _isLockedOn;
+            _isLockedOn = value;
+            OnIsLockOnChanged?.Invoke(oldValue, _isLockedOn);
+        }
+    }
     public bool applyRootMotion = false;
     public bool canRotate = true;
     public bool canMove = true;
@@ -29,6 +45,7 @@ public class CharacterManager : MonoBehaviour
     public event Action<int, int> OnVitalityChanged;
     public event Action<int, int> OnEnduranceChanged;
     public event Action<int, int> OnHandWeaponIDChanged;
+    public event Action<bool, bool> OnIsLockOnChanged;
 
     [Header("Resources")]
     public int maxHealth = 0;
@@ -114,6 +131,7 @@ public class CharacterManager : MonoBehaviour
         DontDestroyOnLoad(this);
 
         characterController = GetComponent<CharacterController>();
+        characterLocomotionManager = GetComponent<CharacterLocomotionManager>();
         animator = GetComponent<Animator>();
         characterEffectsManager = GetComponent<CharacterEffectsManager>();
         characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
@@ -147,6 +165,14 @@ public class CharacterManager : MonoBehaviour
         if(currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
+        }
+    }
+
+    public void OnIsLockedOnChange(bool old, bool isLockedOn)
+    {
+        if (!isLockedOn)
+        {
+            characterCombatManager.currentTarget = null;
         }
     }
 

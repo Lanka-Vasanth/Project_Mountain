@@ -130,29 +130,77 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private void HandleRotation()
     {
-        if (!player.canRotate)
+        if (player.isDead)
         {
             return;
         }
-        Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
-        camForwardDirection.y=0;
 
-        Vector3 camRightDirection = PlayerCamera.instance.cameraObject.transform.right;
-        camRightDirection.y=0;
+        if (player.isLockedOn){
+            if (player.isSprinting || player.playerLocomotionManager.isDashing)
+            {
+                Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
+                camForwardDirection.y=0;
 
-        targetRotationDirection = Vector3.zero;
-        targetRotationDirection = camForwardDirection*verticalMovement + camRightDirection*horizontalMovement;
-        targetRotationDirection.Normalize();
+                Vector3 camRightDirection = PlayerCamera.instance.cameraObject.transform.right;
+                camRightDirection.y=0;
+     
+                targetRotationDirection = Vector3.zero;
+                targetRotationDirection = camForwardDirection*verticalMovement + camRightDirection*horizontalMovement;
+                targetRotationDirection.Normalize();
 
-        if(targetRotationDirection == Vector3.zero)
-        {
-            targetRotationDirection = transform.forward;
+                if(targetRotationDirection == Vector3.zero)
+                {
+                    targetRotationDirection = transform.forward;
+                }
+
+                Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
+                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed*Time.deltaTime);
+
+                transform.rotation = targetRotation;
+            }
+            else
+            {
+                if(player.playerCombatManager.currentTarget == null)
+                {
+                    return;
+                }
+
+                Vector3 targetRotationDirection;
+                targetRotationDirection = player.playerCombatManager.currentTarget.transform.position - transform.position;
+
+                targetRotationDirection.y = 0;
+                targetRotationDirection.Normalize();
+
+                Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
+                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed*Time.deltaTime);
+
+                transform.rotation = targetRotation;
+            }
+        }else{
+            if (!player.canRotate)
+            {
+                return;
+            }
+            Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
+            camForwardDirection.y=0;
+
+            Vector3 camRightDirection = PlayerCamera.instance.cameraObject.transform.right;
+            camRightDirection.y=0;
+
+            targetRotationDirection = Vector3.zero;
+            targetRotationDirection = camForwardDirection*verticalMovement + camRightDirection*horizontalMovement;
+            targetRotationDirection.Normalize();
+
+            if(targetRotationDirection == Vector3.zero)
+            {
+                targetRotationDirection = transform.forward;
+            }
+
+            Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
+            Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed*Time.deltaTime);
+        
+            transform.rotation = targetRotation;
         }
-
-        Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
-        Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed*Time.deltaTime);
-    
-        transform.rotation = targetRotation;
     }
 
     public void HandleSprinting()
@@ -212,6 +260,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
             //PERFORM DASH ANIMATION
             player.playerAnimatorManager.PlayTargetActionAnimation("Dash", true, true);
+            player.playerLocomotionManager.isDashing = true;
         }
         //IF STATIONARY
         else

@@ -99,6 +99,11 @@ public class TakeDamageEffect : InstantCharacterEffect
         //CALCULATE IF POISE IS BROKEN
         poiseIsBroken = true;
 
+        if (character.isDead)
+        {
+            return;
+        }
+
         if (angleHitFrom >= 145 && angleHitFrom <= 180){
             //PLAY FRONTAL DAMAGE ANIMATION
             // damageAnimation = character.characterAnimatorManager.GetRandomAnimationFromList(character.characterAnimatorManager.forward_Damage);
@@ -119,12 +124,6 @@ public class TakeDamageEffect : InstantCharacterEffect
             //PLAY DAMAGE FROM RIGHT ANIM.
             // damageAnimation = character.characterAnimatorManager.GetRandomAnimationFromList(character.characterAnimatorManager.forward_Damage)
             damageAnimation = character.characterAnimatorManager.hitRightward01;
-        }
-
-        if (character.isDead)
-        {
-            character.characterAnimatorManager.PlayTargetActionAnimation("Dead", true);
-            return;
         }
 
         //IF POISE IS BROKEN, PLAY STAGGERRED ANIMATION

@@ -69,6 +69,8 @@ public class PlayerManager : CharacterManager
         OnCurrentWeaponChanged += OnCurrentWeaponInUseIDChange;
 
         OnHealthChanged += CheckHP;
+
+        OnIsLockOnChanged += OnIsLockedOnChange;
     }
 
     protected override void Update()
