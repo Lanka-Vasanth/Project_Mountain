@@ -359,6 +359,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""R2"",
+                    ""type"": ""Button"",
+                    ""id"": ""02a704b6-b232-4333-a2d4-5e121ef8c8e2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Hold R2"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""e3a907f0-8501-451a-80ee-071b0cba8237"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(pressPoint=0.1)"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Lock On"",
                     ""type"": ""Button"",
                     ""id"": ""77823122-caf6-4ad8-a572-f98b26a84f99"",
@@ -472,6 +490,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""R1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4891268a-6c9e-4fd2-bd56-4ae62e3d71b5"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""R2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cfc4b9ba-ca2a-4ff2-bd2a-86589434a4f3"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hold R2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -637,6 +677,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_Sprint = m_PlayerActions.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerActions_Grapple = m_PlayerActions.FindAction("Grapple", throwIfNotFound: true);
         m_PlayerActions_R1 = m_PlayerActions.FindAction("R1", throwIfNotFound: true);
+        m_PlayerActions_R2 = m_PlayerActions.FindAction("R2", throwIfNotFound: true);
+        m_PlayerActions_HoldR2 = m_PlayerActions.FindAction("Hold R2", throwIfNotFound: true);
         m_PlayerActions_LockOn = m_PlayerActions.FindAction("Lock On", throwIfNotFound: true);
         m_PlayerActions_SeekLeftLockOnTarget = m_PlayerActions.FindAction("Seek Left Lock On Target", throwIfNotFound: true);
         m_PlayerActions_SeekRightLockOnTarget = m_PlayerActions.FindAction("Seek Right Lock On Target", throwIfNotFound: true);
@@ -933,6 +975,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Sprint;
     private readonly InputAction m_PlayerActions_Grapple;
     private readonly InputAction m_PlayerActions_R1;
+    private readonly InputAction m_PlayerActions_R2;
+    private readonly InputAction m_PlayerActions_HoldR2;
     private readonly InputAction m_PlayerActions_LockOn;
     private readonly InputAction m_PlayerActions_SeekLeftLockOnTarget;
     private readonly InputAction m_PlayerActions_SeekRightLockOnTarget;
@@ -963,6 +1007,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerActions/R1".
         /// </summary>
         public InputAction @R1 => m_Wrapper.m_PlayerActions_R1;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/R2".
+        /// </summary>
+        public InputAction @R2 => m_Wrapper.m_PlayerActions_R2;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/HoldR2".
+        /// </summary>
+        public InputAction @HoldR2 => m_Wrapper.m_PlayerActions_HoldR2;
         /// <summary>
         /// Provides access to the underlying input action "PlayerActions/LockOn".
         /// </summary>
@@ -1013,6 +1065,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @R1.started += instance.OnR1;
             @R1.performed += instance.OnR1;
             @R1.canceled += instance.OnR1;
+            @R2.started += instance.OnR2;
+            @R2.performed += instance.OnR2;
+            @R2.canceled += instance.OnR2;
+            @HoldR2.started += instance.OnHoldR2;
+            @HoldR2.performed += instance.OnHoldR2;
+            @HoldR2.canceled += instance.OnHoldR2;
             @LockOn.started += instance.OnLockOn;
             @LockOn.performed += instance.OnLockOn;
             @LockOn.canceled += instance.OnLockOn;
@@ -1045,6 +1103,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @R1.started -= instance.OnR1;
             @R1.performed -= instance.OnR1;
             @R1.canceled -= instance.OnR1;
+            @R2.started -= instance.OnR2;
+            @R2.performed -= instance.OnR2;
+            @R2.canceled -= instance.OnR2;
+            @HoldR2.started -= instance.OnHoldR2;
+            @HoldR2.performed -= instance.OnHoldR2;
+            @HoldR2.canceled -= instance.OnHoldR2;
             @LockOn.started -= instance.OnLockOn;
             @LockOn.performed -= instance.OnLockOn;
             @LockOn.canceled -= instance.OnLockOn;
@@ -1320,6 +1384,20 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnR1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "R2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnR2(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Hold R2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHoldR2(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Lock On" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

@@ -273,6 +273,24 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "R2",
+                    "type": "Button",
+                    "id": "02a704b6-b232-4333-a2d4-5e121ef8c8e2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Hold R2",
+                    "type": "PassThrough",
+                    "id": "e3a907f0-8501-451a-80ee-071b0cba8237",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold(pressPoint=0.1)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Lock On",
                     "type": "Button",
                     "id": "77823122-caf6-4ad8-a572-f98b26a84f99",
@@ -386,6 +404,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "R1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4891268a-6c9e-4fd2-bd56-4ae62e3d71b5",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "R2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cfc4b9ba-ca2a-4ff2-bd2a-86589434a4f3",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hold R2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

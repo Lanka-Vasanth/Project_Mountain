@@ -22,6 +22,19 @@ public class CharacterManager : MonoBehaviour
     public bool isGrounded = true;
     public bool isSprinting = false;
     public bool isGrappling = false;
+    public bool _isChargingAttack = false;
+    public bool isChargingAttack{
+        get =>_isChargingAttack;
+        set
+        {
+            if (_isChargingAttack == value)
+                return;
+
+            bool oldValue = _isChargingAttack;
+            _isChargingAttack = value;
+            OnIsChargingAttackChanged?.Invoke(oldValue, _isChargingAttack);
+        }
+    }
     public bool _isLockedOn = false;
     public bool isLockedOn
     {
@@ -46,6 +59,7 @@ public class CharacterManager : MonoBehaviour
     public event Action<int, int> OnEnduranceChanged;
     public event Action<int, int> OnHandWeaponIDChanged;
     public event Action<bool, bool> OnIsLockOnChanged;
+    public event Action<bool, bool> OnIsChargingAttackChanged;
 
     [Header("Resources")]
     public int maxHealth = 0;
@@ -175,6 +189,11 @@ public class CharacterManager : MonoBehaviour
             characterCombatManager.currentTarget = null;
         }
     }
+
+    public void OnIsChargingAttackChange(bool oldStatus, bool newStatus)
+    {
+        animator.SetBool("isChargingAttack", isChargingAttack);
+    } 
 
     public virtual IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
     {

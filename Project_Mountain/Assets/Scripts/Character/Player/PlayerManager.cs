@@ -71,6 +71,8 @@ public class PlayerManager : CharacterManager
         OnHealthChanged += CheckHP;
 
         OnIsLockOnChanged += OnIsLockedOnChange;
+
+        OnIsChargingAttackChanged += OnIsChargingAttackChange;
     }
 
     protected override void Update()
@@ -175,6 +177,23 @@ public class PlayerManager : CharacterManager
         currentStamina = currentCharacterData.currentStamina;
 
         PlayerUIManager.instance.playerUIHUDManager.SetMaxStaminaValue(maxStamina);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        OnVitalityChanged -= SetNewMaxHealth;
+        OnEnduranceChanged -= SetNewMaxStamina;
+
+        OnHealthChanged -= PlayerUIManager.instance.playerUIHUDManager.SetNewHealthValue;
+        OnStaminaChanged -= PlayerUIManager.instance.playerUIHUDManager.SetNewStaminaValue;
+
+        OnStaminaChanged -= playerStatsManager.ResetStaminaRegenTimer;
+
+        OnHandWeaponIDChanged -= OnCurrentHandWeaponChange;
+        OnCurrentWeaponChanged -= OnCurrentWeaponInUseIDChange;
+        OnHealthChanged -= CheckHP;
+        OnIsLockOnChanged -= OnIsLockedOnChange;
+        OnIsChargingAttackChanged -= OnIsChargingAttackChange;
     }
 
     private void DebugMenu()

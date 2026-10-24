@@ -35,6 +35,12 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool sprintInput = false;
     [SerializeField] bool grappleInput = false;
     [SerializeField] bool r1Input = false;
+
+    [Header("TRIGGER INPUT")]
+    [SerializeField] bool r2Input = false;
+    [SerializeField] bool holdR2Input = false;
+
+
  
     private void Awake()
     {   
@@ -59,13 +65,19 @@ public class PlayerInputManager : MonoBehaviour
         
         playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
         playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
+
         playerControls.PlayerActions.Dash.performed += i => dashInput = true;
         playerControls.PlayerActions.Grapple.performed += i => grappleInput = true;
         playerControls.PlayerActions.R1.performed += i => r1Input = true;
+
         playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
         playerControls.PlayerActions.SeekLeftLockOnTarget.performed += i => lockOnLeftInput = true;
         playerControls.PlayerActions.SeekRightLockOnTarget.performed += i => lockOnRightInput = true;
 
+        playerControls.PlayerActions.R2.performed += i => r2Input = true;
+
+        playerControls.PlayerActions.HoldR2.performed += i => holdR2Input = true;
+        playerControls.PlayerActions.HoldR2.canceled += i => holdR2Input = false;
 
         //HOLDING THE INPUT SETS TO TRUE, LEAVING REVERTS TO FALSE
         playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -89,11 +101,14 @@ public class PlayerInputManager : MonoBehaviour
         HandlePlayerMovementInput();
         HandleCameraMovementInput();
         HandleDashInput();
-        HandleSprintInput();
+        // HandleSprintInput();
         HandleGrappleInput();
         HandleR1Input();
+        HandleR2Input();
+        HandleChargedR2Input();
         HandleLockOnInput();
         HandleLockOnSwitchTargetInput();
+
     }
 
     //MOVEMENT
@@ -204,6 +219,24 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
+    private void HandleR2Input()
+    {
+        if (r2Input)
+        {
+            r2Input = false;
+
+            player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentInHandWeapon.r2_Action, player.playerInventoryManager.currentInHandWeapon);
+        }
+    } 
+
+    private void HandleChargedR2Input()
+    {
+        if (player.isPerformingAction)
+        {
+            player.isChargingAttack = true;
+        }
+    }
+
     private void HandleLockOnInput()
     {
         if (player.isLockedOn)
@@ -284,6 +317,4 @@ public class PlayerInputManager : MonoBehaviour
             }
         }
     }
-
-    
 }
