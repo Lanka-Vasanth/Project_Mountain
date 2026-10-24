@@ -26,7 +26,7 @@ public class CharacterCombatManager : MonoBehaviour
         }
         else
         {
-            newTarget = null;
+            currentTarget = null;
         }
     }
 

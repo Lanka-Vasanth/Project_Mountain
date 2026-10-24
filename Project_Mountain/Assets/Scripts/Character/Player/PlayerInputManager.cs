@@ -129,14 +129,17 @@ public class PlayerInputManager : MonoBehaviour
         }
         else
         {
-
             Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
             camForwardDirection.y=0;
+            camForwardDirection.Normalize();
 
             Vector3 camRightDirection = PlayerCamera.instance.cameraObject.transform.right;
             camRightDirection.y=0;
+            camRightDirection.Normalize();
 
-            Vector3 worldMove = (camForwardDirection * verticalInput + camRightDirection * horizontalInput).normalized;
+            Vector3 worldMove = Vector3.zero;
+            worldMove = camForwardDirection*verticalInput + camRightDirection*horizontalInput;
+            worldMove.Normalize();
 
             Vector3 localMove = player.transform.InverseTransformDirection(worldMove) * moveAmount;
 
@@ -203,26 +206,27 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleLockOnInput()
     {
-        //CHECK FOR DEAD TARGETS
         if (player.isLockedOn)
         {
             if(player.playerCombatManager.currentTarget == null)
             {
                 return;
             }
-
+            //CHECK FOR DEAD TARGETS
             if (player.playerCombatManager.currentTarget.isDead)
             {
                 player.isLockedOn = false;
+
+                //ATTEMPT TO FIND NEW TARGET OR UNLOCK
+                if(lockOnCoroutine != null)
+                {
+                    StopCoroutine(lockOnCoroutine);
+                }
+
+                lockOnCoroutine = StartCoroutine(PlayerCamera.instance.WaitThenFindNewTarget());
             }
 
-            //ATTEMPT TO FIND NEW TARGET OR UNLOCK
-            if(lockOnCoroutine != null)
-            {
-                StopCoroutine(lockOnCoroutine);
-            }
-
-            lockOnCoroutine = StartCoroutine(PlayerCamera.instance.WaitThenFindNewTarget());
+            
         }
 
         if (lockOnInput && player.isLockedOn)

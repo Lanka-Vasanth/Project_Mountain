@@ -86,10 +86,12 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         GetMovementValues();
 
         Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
-        camForwardDirection.y=0; 
+        camForwardDirection.y=0;
+        camForwardDirection.Normalize();
 
         Vector3 camRightDirection = PlayerCamera.instance.cameraObject.transform.right;
         camRightDirection.y=0;
+        camRightDirection.Normalize();
 
         moveDirection = camForwardDirection*verticalMovement + camRightDirection*horizontalMovement;
         moveDirection.Normalize();
@@ -116,9 +118,11 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             Vector3 freeFallDirection;
             Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
             camForwardDirection.y=0; 
+            camForwardDirection.Normalize();
 
             Vector3 camRightDirection = PlayerCamera.instance.cameraObject.transform.right;
             camRightDirection.y=0;
+            camRightDirection.Normalize();
 
             freeFallDirection = camForwardDirection*PlayerInputManager.instance.verticalInput + camRightDirection*PlayerInputManager.instance.horizontalInput;
             freeFallDirection.y = 0;
@@ -140,12 +144,15 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             {
                 Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
                 camForwardDirection.y=0;
+                camForwardDirection.Normalize();
 
                 Vector3 camRightDirection = PlayerCamera.instance.cameraObject.transform.right;
                 camRightDirection.y=0;
+                camRightDirection.Normalize();
      
                 targetRotationDirection = Vector3.zero;
                 targetRotationDirection = camForwardDirection*verticalMovement + camRightDirection*horizontalMovement;
+                targetRotationDirection.y = 0;
                 targetRotationDirection.Normalize();
 
                 if(targetRotationDirection == Vector3.zero)
@@ -168,8 +175,8 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
                 Vector3 targetRotationDirection;
                 targetRotationDirection = player.playerCombatManager.currentTarget.transform.position - transform.position;
 
-                targetRotationDirection.y = 0;
                 targetRotationDirection.Normalize();
+                targetRotationDirection.y = 0;
 
                 Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
                 Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed*Time.deltaTime);
@@ -183,12 +190,15 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             }
             Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
             camForwardDirection.y=0;
+            camForwardDirection.Normalize();
 
             Vector3 camRightDirection = PlayerCamera.instance.cameraObject.transform.right;
             camRightDirection.y=0;
+            camRightDirection.Normalize();
 
             targetRotationDirection = Vector3.zero;
             targetRotationDirection = camForwardDirection*verticalMovement + camRightDirection*horizontalMovement;
+            targetRotationDirection.y = 0;
             targetRotationDirection.Normalize();
 
             if(targetRotationDirection == Vector3.zero)
