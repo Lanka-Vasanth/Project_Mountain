@@ -79,7 +79,7 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
     public void SwitchWeapon()
     {
         //ANIMATION WHEN SWAPPING WEAPONS
-        player.playerAnimatorManager.PlayTargetActionAnimation("Equip", false, true, true, true);
+        player.playerAnimatorManager.PlayTargetActionAnimation("Equip", false, false, true, true);
 
         WeaponItem selectedWeapon = null;
         player.playerInventoryManager.handWeaponIndex+=1;

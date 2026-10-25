@@ -23,13 +23,15 @@ public class WeaponItem : Item
     //WEAPON MODIFIERS
 
     [Header("Damage Modifiers")]
-    public float lightAttack_01Modifier = 1.1f;
+    public float lightAttack_01Modifier = 1.0f;
+    public float lightAttack_02Modifier = 1.2f;
     public float heavyAttack_01Modifier = 1.4f;
     public float chargedHeavyAttack_01Modifier = 1.8f;
 
     [Header("Stamina Cost Modifiers")]
     public int baseStaminaCost = 20;
     public float lightAttackStaminaCostModifier = 0.9f;
+    public float heavyAttackStaminaCostModifier = 1.4f;
 
     //ITEM BASED ACTIONS [SKILLS]
     [Header("Actions")]

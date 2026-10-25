@@ -8,6 +8,7 @@ public class MeleeWeaponDamageCollider : DamageCollider
 
     [Header("Weapon Attack Modifiers")]
     public float lightAttack_01Modifier;
+    public float lightAttack_02Modifier;
     public float heavyAttack_01Modifier;
     public float chargedHeavyAttack_01Modifier;
 
@@ -66,6 +67,9 @@ public class MeleeWeaponDamageCollider : DamageCollider
         {
             case AttackType.LightAttack01:
                 ApplyAttackDamageModifiers(lightAttack_01Modifier, damageEffect);
+                break;
+            case AttackType.LightAttack02:
+                ApplyAttackDamageModifiers(lightAttack_02Modifier, damageEffect);
                 break;
             case AttackType.HeavyAttack01:
                 ApplyAttackDamageModifiers(heavyAttack_01Modifier, damageEffect);

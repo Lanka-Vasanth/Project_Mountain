@@ -102,6 +102,7 @@ public class CharacterAnimatorManager : MonoBehaviour
                                                   bool canMove = false)
     {
         //KEEP TRACK OF LAST ATTACK PERFORMED FOR COMBOS
+        character.characterCombatManager.lastAttackAnimationPerformed = targetAnimation;
 
         //KEEP TRACK OF CURRENT ATTACK TYPE (LIGHT, HEAVY)
         character.characterCombatManager.currentAttackType = attackType;
@@ -118,5 +119,15 @@ public class CharacterAnimatorManager : MonoBehaviour
         character.isPerformingAction = isPerformingAction;
         character.canMove = canMove;
         character.canRotate = canRotate;
+    }
+
+    public virtual void EnableCanDoCombo()
+    {
+        
+    }
+
+    public virtual void DisableCanDoCombo()
+    {
+        
     }
 }

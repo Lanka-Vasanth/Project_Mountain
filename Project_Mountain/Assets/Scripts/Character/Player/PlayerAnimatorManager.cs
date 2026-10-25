@@ -20,5 +20,16 @@ public class PlayerAnimatorManager : CharacterAnimatorManager
             player.transform.rotation *= player.animator.deltaRotation;
         }
     }
+
+    // ANIMATION EVENT CALLS
+    public override void EnableCanDoCombo()
+    {
+        player.playerCombatManager.canCombo = true;
+    }
+
+    public override void DisableCanDoCombo()
+    {
+        player.playerCombatManager.canCombo = false;
+    }
 }
   

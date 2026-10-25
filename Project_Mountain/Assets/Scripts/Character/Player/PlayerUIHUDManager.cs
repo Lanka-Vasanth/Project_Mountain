@@ -1,9 +1,13 @@
+using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerUIHUDManager : MonoBehaviour
 {
+    [Header("STAT BARS")]
     [SerializeField] UI_Statbar healthBar;
     [SerializeField] UI_Statbar staminaBar;
+
+    // [Header("Quick Slots")]
 
     public void RefreshHUD()
     {

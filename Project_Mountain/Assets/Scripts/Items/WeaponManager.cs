@@ -18,6 +18,7 @@ public class WeaponManager : MonoBehaviour
         meleeDamageCollider.characterCausingDamage = characterWieldingWeapon;
 
         meleeDamageCollider.lightAttack_01Modifier = weapon.lightAttack_01Modifier;
+        meleeDamageCollider.lightAttack_02Modifier = weapon.lightAttack_02Modifier;
         meleeDamageCollider.heavyAttack_01Modifier = weapon.heavyAttack_01Modifier;
         meleeDamageCollider.chargedHeavyAttack_01Modifier = weapon.chargedHeavyAttack_01Modifier;
 
