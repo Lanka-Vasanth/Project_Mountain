@@ -962,15 +962,15 @@ GameObject:
   m_Component:
   - component: {fileID: 2929983139341872999}
   - component: {fileID: 8863702891463118058}
-  - component: {fileID: 227656641526098839}
+  - component: {fileID: 5694735927194176069}
   - component: {fileID: 726708885012459541}
   - component: {fileID: 4017261456025771070}
+  - component: {fileID: 5522593940696715460}
   - component: {fileID: 3221857240537399948}
   - component: {fileID: 2685850550446169954}
   - component: {fileID: 8482946612572377638}
   - component: {fileID: 8601647066883713897}
   - component: {fileID: 3364898141457156378}
-  - component: {fileID: 1495087738998036157}
   - component: {fileID: 3253106981488173815}
   - component: {fileID: 4023680357673579342}
   - component: {fileID: 1091982302089375383}
@@ -1020,7 +1020,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &227656641526098839
+--- !u!114 &5694735927194176069
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1029,21 +1029,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 4526112123721607984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5b5b9119a301964aa2e7410f6dd292b, type: 3}
+  m_Script: {fileID: 11500000, guid: f98d1fc528d65d94a950a560abce7eeb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterManager
+  m_EditorClassIdentifier: '::'
   characterController: {fileID: 0}
+  characterLocomotionManager: {fileID: 0}
   characterEffectsManager: {fileID: 0}
   characterAnimatorManager: {fileID: 0}
   characterCombatManager: {fileID: 0}
   characterSoundFXManager: {fileID: 0}
   animator: {fileID: 0}
+  characterGroup: 1
   isDead: 0
   isPerformingAction: 0
   isGrounded: 1
   isSprinting: 0
   isGrappling: 0
-  isLockedOn: 0
+  _isChargingAttack: 0
+  _isLockedOn: 0
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
@@ -1054,6 +1057,8 @@ MonoBehaviour:
   _vitality: 10
   _endurance: 10
   _currentInHandWeaponID: 0
+  aiCharacterCombatManager: {fileID: 0}
+  currentState: {fileID: 11400000, guid: 927d0e5b1b181bf478951c840ab0efcb, type: 2}
 --- !u!114 &726708885012459541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1074,6 +1079,7 @@ MonoBehaviour:
   yVelocity: {x: 0, y: 0, z: 0}
   groundedVelocity: -20
   fallStartVelocity: -5
+  isDashing: 0
 --- !u!114 &4017261456025771070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1095,6 +1101,25 @@ MonoBehaviour:
   backward_Damage: []
   leftward_Damage: []
   rightward_Damage: []
+--- !u!114 &5522593940696715460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4526112123721607984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 893ea3a0250ebbe48bb0702fef45a022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AICharacterCombatManager
+  lastAttackAnimationPerformed: 
+  currentTarget: {fileID: 0}
+  currentAttackType: 0
+  lockOnTransform: {fileID: 2261567984097884022}
+  detectionRadius: 15
+  minimumDetectionAngle: -35
+  maximumDetectionAngle: 35
 --- !u!114 &3221857240537399948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1158,21 +1183,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e81a34708b2b0364e95cb6f4734cc32b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterInventoryManager
---- !u!114 &1495087738998036157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4526112123721607984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa5c04e12844235438db4603e6363e5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterCombatManager
-  currentTarget: {fileID: 0}
-  currentAttackType: 0
-  lockOnTransform: {fileID: 2261567984097884022}
 --- !u!143 &3253106981488173815
 CharacterController:
   m_ObjectHideFlags: 0

@@ -14,6 +14,9 @@ public class CharacterManager : MonoBehaviour
     public CharacterSoundFXManager characterSoundFXManager;
     public Animator animator;
 
+    [Header("Character Group")]
+    public CharacterGroup characterGroup;
+
     [Header("Status")]
     public bool isDead;
     
@@ -162,6 +165,11 @@ public class CharacterManager : MonoBehaviour
     protected virtual void Update()
     {
         animator.SetBool("isGrounded", isGrounded);
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        
     }
 
     protected virtual void LateUpdate()

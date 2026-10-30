@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CharacterCombatManager : MonoBehaviour
 {
-    CharacterManager character;
+    protected CharacterManager character;
 
     [Header("Last Attack Animation Performed")]
     public string lastAttackAnimationPerformed;

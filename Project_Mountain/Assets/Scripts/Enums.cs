@@ -28,3 +28,9 @@ public enum AttackType
     HeavyAttack01,
     ChargedHeavyAttack01,
 }
+
+public enum CharacterGroup
+{
+    Team01, 
+    Team02,
+}
