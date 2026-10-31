@@ -138,6 +138,14 @@ public class PlayerInputManager : MonoBehaviour
             return;
         }
 
+        if(moveAmount != 0)
+        {
+            player.isMoving = true;
+        }
+        else
+        {
+            player.isMoving = false;
+        }
         //WHEN NOT LOCKED ON
         if(!player.isLockedOn || player.isSprinting){
             player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.isSprinting);

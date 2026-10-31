@@ -179,8 +179,10 @@ public class PlayerManager : CharacterManager
         PlayerUIManager.instance.playerUIHUDManager.SetMaxStaminaValue(maxStamina);
     }
 
-    protected virtual void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+        
         OnVitalityChanged -= SetNewMaxHealth;
         OnEnduranceChanged -= SetNewMaxStamina;
 

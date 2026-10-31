@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class CharacterManager : MonoBehaviour
 {
@@ -52,6 +52,20 @@ public class CharacterManager : MonoBehaviour
             OnIsLockOnChanged?.Invoke(oldValue, _isLockedOn);
         }
     }
+    public bool _isMoving = false;
+    public bool isMoving{
+        get =>_isMoving;
+        set
+        {
+            if (_isMoving == value)
+                return;
+
+            bool oldValue = _isMoving;
+            _isMoving = value;
+            OnIsMovingChanged?.Invoke(oldValue, _isMoving);
+        }
+    }
+
     public bool applyRootMotion = false;
     public bool canRotate = true;
     public bool canMove = true;
@@ -63,6 +77,8 @@ public class CharacterManager : MonoBehaviour
     public event Action<int, int> OnHandWeaponIDChanged;
     public event Action<bool, bool> OnIsLockOnChanged;
     public event Action<bool, bool> OnIsChargingAttackChanged;
+    public event Action<bool, bool> OnIsMovingChanged;
+
 
     [Header("Resources")]
     public int maxHealth = 0;
@@ -155,6 +171,8 @@ public class CharacterManager : MonoBehaviour
         characterCombatManager = GetComponent<CharacterCombatManager>();
         characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
 
+        OnIsMovingChanged += OnIsMovingChange;
+
     }
 
     protected virtual void Start()
@@ -201,7 +219,12 @@ public class CharacterManager : MonoBehaviour
     public void OnIsChargingAttackChange(bool oldStatus, bool newStatus)
     {
         animator.SetBool("isChargingAttack", isChargingAttack);
-    } 
+    }
+
+    public void OnIsMovingChange(bool oldStatus, bool newStatus)
+    {
+        animator.SetBool("isMoving", isMoving);
+    }
 
     public virtual IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
     {
@@ -250,5 +273,10 @@ public class CharacterManager : MonoBehaviour
                 Physics.IgnoreCollision(collider, otherCollider, true);
             }
         }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        OnIsMovingChanged -= OnIsMovingChange;
     }
 }
