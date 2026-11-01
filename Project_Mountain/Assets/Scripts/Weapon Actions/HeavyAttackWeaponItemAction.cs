@@ -16,7 +16,7 @@ public class HeavyAttackWeaponItemAction : WeaponItemAction
             return;
         }
 
-        if (!playerPerformingAction.isGrounded)
+        if (!playerPerformingAction.characterLocomotionManager.isGrounded)
         { 
             return;
         }

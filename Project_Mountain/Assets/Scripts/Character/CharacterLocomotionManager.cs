@@ -16,6 +16,11 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     [Header("Flags")]
     public bool isDashing = false;
+    public bool isGrounded = true;
+    public bool isSprinting = false;
+    public bool isGrappling = false;
+    public bool canRotate = true;
+    public bool canMove = true;
 
     protected virtual void Awake()
     {
@@ -26,7 +31,7 @@ public class CharacterLocomotionManager : MonoBehaviour
     {
         HandleGroundCheck();
 
-        if (!character.isGrounded)
+        if (!isGrounded)
         {
             if (!fallingVelocitySetCheck)
             {
@@ -45,7 +50,7 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     protected void HandleGroundCheck()
     {
-        character.isGrounded = Physics.CheckSphere(character.transform.position, groundCheckSphereRadius, groundLayer);
+        isGrounded = Physics.CheckSphere(character.transform.position, groundCheckSphereRadius, groundLayer);
     }
 
     protected void OnDrawGizmosSelected()
@@ -53,5 +58,14 @@ public class CharacterLocomotionManager : MonoBehaviour
         Gizmos.DrawSphere(character.transform.position, groundCheckSphereRadius);
     }
 
-    
+    //ANIMATION EVENT CALLS
+    public void EnableCanRotate()
+    {
+        canRotate = true;
+    }
+
+    public void DisableCanRotate()
+    {
+        canRotate = false;
+    } 
 }

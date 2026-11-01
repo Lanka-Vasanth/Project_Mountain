@@ -147,8 +147,8 @@ public class PlayerInputManager : MonoBehaviour
             player.isMoving = false;
         }
         //WHEN NOT LOCKED ON
-        if(!player.isLockedOn || player.isSprinting){
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.isSprinting);
+        if(!player.isLockedOn || player.playerLocomotionManager.isSprinting){
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerLocomotionManager.isSprinting);
         }
         else
         {
@@ -166,7 +166,7 @@ public class PlayerInputManager : MonoBehaviour
 
             Vector3 localMove = player.transform.InverseTransformDirection(worldMove) * moveAmount;
 
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(localMove.x, localMove.z, player.isSprinting);
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(localMove.x, localMove.z, player.playerLocomotionManager.isSprinting);
         }
     }
 
@@ -203,7 +203,7 @@ public class PlayerInputManager : MonoBehaviour
         }
         else
         {
-            player.isSprinting = false;
+            player.playerLocomotionManager.isSprinting = false;
         }
     }
 

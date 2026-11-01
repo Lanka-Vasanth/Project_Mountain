@@ -6,6 +6,8 @@ public class CharacterAnimatorManager : MonoBehaviour
 {
     CharacterManager character;
 
+    public bool applyRootMotion = false;
+
     int vertical;
     int horizontal;
 
@@ -84,14 +86,14 @@ public class CharacterAnimatorManager : MonoBehaviour
                                                   bool canRotate = false, 
                                                   bool canMove = false)
     {
-        character.applyRootMotion = applyRootMotion;
+        this.applyRootMotion = applyRootMotion;
         character.animator.CrossFade(targetAnimation, 0.2f);
 
         //STOPS CHARACTER FROM ATTEMPTING NEW ACTIONS,
         //EXAMPLE IF DAMAGED, PREVENTS STUNLOCKING 
         character.isPerformingAction = isPerformingAction;
-        character.canMove = canMove;
-        character.canRotate = canRotate;
+        character.characterLocomotionManager.canMove = canMove;
+        character.characterLocomotionManager.canRotate = canRotate;
     }
 
     public virtual void PlayTargetAttackActionAnimation(AttackType attackType,
@@ -111,14 +113,14 @@ public class CharacterAnimatorManager : MonoBehaviour
 
         //DECIDE IF ATTACK CAN BE PARRIED
         
-        character.applyRootMotion = applyRootMotion;
+        this.applyRootMotion = applyRootMotion;
         character.animator.CrossFade(targetAnimation, 0.2f);
 
         //STOPS CHARACTER FROM ATTEMPTING NEW ACTIONS,
         //EXAMPLE IF DAMAGED, PREVENTS STUNLOCKING 
         character.isPerformingAction = isPerformingAction;
-        character.canMove = canMove;
-        character.canRotate = canRotate;
+        character.characterLocomotionManager.canMove = canMove;
+        character.characterLocomotionManager.canRotate = canRotate;
     }
 
     public virtual void EnableCanDoCombo()

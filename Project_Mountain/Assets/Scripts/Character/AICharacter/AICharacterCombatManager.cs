@@ -20,6 +20,13 @@ public class AICharacterCombatManager : CharacterCombatManager
     [Header("Action Recovery")]
     public float actionRecoveryTimer = 0;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        lockOnTransform = GetComponentInChildren<LockOnTransform>().transform;
+    }
+
     public void FindTargetAlongLineOfSight(AICharacterManager aiCharacter)
     {
         if(currentTarget != null)
@@ -132,7 +139,7 @@ public class AICharacterCombatManager : CharacterCombatManager
         }
 
         //CHECK IF WE CAN ROTATE
-        if (!aiCharacter.canRotate)
+        if (!aiCharacter.characterLocomotionManager.canRotate)
         {
             return;
         }

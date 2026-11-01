@@ -13,7 +13,7 @@ public class AICharacterAnimatorManager : CharacterAnimatorManager
 
     private void OnAnimatorMove()
     {
-        if (!aiCharacter.isGrounded)
+        if (!aiCharacter.characterLocomotionManager.isGrounded)
         {
             return;
         }

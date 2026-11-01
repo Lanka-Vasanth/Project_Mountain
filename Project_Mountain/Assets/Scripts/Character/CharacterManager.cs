@@ -22,9 +22,6 @@ public class CharacterManager : MonoBehaviour
     
     [Header("Flags")]
     public bool isPerformingAction = false;
-    public bool isGrounded = true;
-    public bool isSprinting = false;
-    public bool isGrappling = false;
     public bool _isChargingAttack = false;
     public bool isChargingAttack{
         get =>_isChargingAttack;
@@ -65,10 +62,6 @@ public class CharacterManager : MonoBehaviour
             OnIsMovingChanged?.Invoke(oldValue, _isMoving);
         }
     }
-
-    public bool applyRootMotion = false;
-    public bool canRotate = true;
-    public bool canMove = true;
 
     public event Action<int, int> OnHealthChanged;
     public event Action<float, float> OnStaminaChanged;
@@ -182,7 +175,7 @@ public class CharacterManager : MonoBehaviour
 
     protected virtual void Update()
     {
-        animator.SetBool("isGrounded", isGrounded);
+        animator.SetBool("isGrounded", characterLocomotionManager.isGrounded);
     }
 
     protected virtual void FixedUpdate()

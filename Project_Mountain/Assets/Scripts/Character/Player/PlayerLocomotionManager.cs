@@ -78,7 +78,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private void HandleGroundMovement()
     {
-        if (!player.canMove)
+        if (!player.playerLocomotionManager.canMove)
         {
             return;
         }
@@ -96,7 +96,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         moveDirection = camForwardDirection*verticalMovement + camRightDirection*horizontalMovement;
         moveDirection.Normalize();
 
-        if (player.isSprinting)
+        if (player.playerLocomotionManager.isSprinting)
         {
             player.characterController.Move(moveDirection*sprintSpeed*Time.deltaTime);
         }else{
@@ -113,7 +113,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private void HandleFreeFallMovement()
     {
-        if (!player.isGrounded)
+        if (!player.playerLocomotionManager.isSprinting)
         {
             Vector3 freeFallDirection;
             Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
@@ -140,7 +140,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         }
 
         if (player.isLockedOn){
-            if (player.isSprinting || player.playerLocomotionManager.isDashing)
+            if (player.playerLocomotionManager.isSprinting || player.playerLocomotionManager.isDashing)
             {
                 Vector3 camForwardDirection = PlayerCamera.instance.cameraObject.transform.forward;
                 camForwardDirection.y=0;
@@ -184,7 +184,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
                 transform.rotation = targetRotation;
             }
         }else{
-            if (!player.canRotate)
+            if (!player.playerLocomotionManager.canRotate)
             {
                 return;
             }
@@ -217,25 +217,25 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     {
         if (player.isPerformingAction)
         {
-            player.isSprinting = false;
+            player.playerLocomotionManager.isSprinting = false;
         }
 
         if(player.currentStamina <= 0)
         {
-            player.isSprinting = false;
+            player.playerLocomotionManager.isSprinting = false;
             return;
         }
 
         if(moveAmount >= 0.5)
         {
-            player.isSprinting = true;
+            player.playerLocomotionManager.isSprinting = true;
         }
         else
         {
-            player.isSprinting = false;
+            player.playerLocomotionManager.isSprinting = false;
         }
 
-        if (player.isSprinting)
+        if (player.playerLocomotionManager.isSprinting)
         {
             player.currentStamina -= sprintingStaminaCost * Time.deltaTime;
         }
@@ -284,7 +284,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     public void AttemptToPerformGrapple()
     {
-        if (player.isPerformingAction && !player.isGrappling){
+        if (player.isPerformingAction && !player.playerLocomotionManager.isGrappling){
             return;
         }
 
@@ -345,14 +345,14 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         ? finalAnchorPoint + Vector3.up * grappleLedgeClearance
         : new Vector3(finalAnchorPoint.x, playerOrigin.y, finalAnchorPoint.z);
 
-        if (player.isGrappling)
+        if (player.playerLocomotionManager.isGrappling)
         {
             grappleDirection = (grapplePosition - playerOrigin).normalized;
             grappleOvershooting = false;
             return;
         }
 
-        player.isGrappling = true;
+        player.playerLocomotionManager.isGrappling = true;
         grappleWinding = true;
         grappleOvershooting = false;
         player.playerAnimatorManager.PlayTargetActionAnimation("Grapple", true, false);
@@ -369,7 +369,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private void HandleGrappleMovement()
     {
-        if (!player.isGrappling || grappleWinding){
+        if (!player.playerLocomotionManager.isGrappling || grappleWinding){
             return;
         }
 
@@ -379,10 +379,10 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
             if (grappleSlideVelocity.sqrMagnitude < 4f)
             {
-                player.isGrappling = false;
+                player.playerLocomotionManager.isGrappling = false;
                 player.isPerformingAction = false;
-                player.canMove = true;
-                player.canRotate = true;
+                player.playerLocomotionManager.canMove = true;
+                player.playerLocomotionManager.canRotate = true;
             }
             return;
         }

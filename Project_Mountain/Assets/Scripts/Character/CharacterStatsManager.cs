@@ -42,7 +42,7 @@ public class CharacterStatsManager : MonoBehaviour
 
     public virtual void RegenerateStamina()
     {
-        if (character.isSprinting)
+        if (character.characterLocomotionManager.isSprinting)
         {
             return;
         }
