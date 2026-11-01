@@ -1018,8 +1018,8 @@ GameObject:
   - component: {fileID: 8863702891463118058}
   - component: {fileID: 5694735927194176069}
   - component: {fileID: 4263164555701108836}
-  - component: {fileID: 4017261456025771070}
   - component: {fileID: 5522593940696715460}
+  - component: {fileID: 8972291668653866967}
   - component: {fileID: 3221857240537399948}
   - component: {fileID: 2685850550446169954}
   - component: {fileID: 8482946612572377638}
@@ -1063,7 +1063,7 @@ Animator:
   m_GameObject: {fileID: 4526112123721607984}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: e57e9b8cd5e115f4f8d7736473e5c7fd, type: 3}
-  m_Controller: {fileID: 9100000, guid: bbdecfed2160e8442839ddf756f1d0e5, type: 2}
+  m_Controller: {fileID: 9100000, guid: e84d7498ecd1fe941bd39df4e2053c63, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -1119,6 +1119,8 @@ MonoBehaviour:
   currentState: {fileID: 11400000, guid: 927d0e5b1b181bf478951c840ab0efcb, type: 2}
   idle: {fileID: 11400000, guid: 927d0e5b1b181bf478951c840ab0efcb, type: 2}
   pursueTarget: {fileID: 11400000, guid: 385044dbd96ec63418a3f4e7ebcba3dd, type: 2}
+  combatStance: {fileID: 11400000, guid: 6d5b0e2f8bc5c204da7aeb86aea646f2, type: 2}
+  attack: {fileID: 11400000, guid: 2e9e7637384f21f48accf3563a431e8c, type: 2}
 --- !u!114 &4263164555701108836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,27 +1142,6 @@ MonoBehaviour:
   groundedVelocity: -20
   fallStartVelocity: -5
   isDashing: 0
---- !u!114 &4017261456025771070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4526112123721607984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fed7ae3fdb2b837418e70c63c92b88dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimatorManager
-  lastAnimationPlayed: 
-  hitForward01: hitForward01
-  hitBackward01: hitBackward01
-  hitLeftward01: hitLeftward01
-  hitRightward01: hitRightward01
-  forward_Damage: []
-  backward_Damage: []
-  leftward_Damage: []
-  rightward_Damage: []
 --- !u!114 &5522593940696715460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1177,9 +1158,35 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   currentAttackType: 0
   lockOnTransform: {fileID: 2261567984097884022}
+  distanceFromTarget: 0
+  viewableAngle: 0
+  targetDirection: {x: 0, y: 0, z: 0}
   detectionRadius: 15
-  minimumDetectionAngle: -35
-  maximumDetectionAngle: 35
+  minimumFOV: -35
+  maximumFOV: 35
+  attackRotationSpeed: 25
+  actionRecoveryTimer: 0
+--- !u!114 &8972291668653866967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4526112123721607984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 665ee94f354d665479021656dd76291f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AICharacterAnimatorManager
+  lastAnimationPlayed: 
+  hitForward01: hitForward01
+  hitBackward01: hitBackward01
+  hitLeftward01: hitLeftward01
+  hitRightward01: hitRightward01
+  forward_Damage: []
+  backward_Damage: []
+  leftward_Damage: []
+  rightward_Damage: []
 --- !u!114 &3221857240537399948
 MonoBehaviour:
   m_ObjectHideFlags: 0
