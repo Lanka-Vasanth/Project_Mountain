@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2540629482097139733}
   - component: {fileID: 1826517090688346194}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: B_R_Forearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8982999513363072518}
   - component: {fileID: 7993534775866087949}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: B_R_UpperArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -370,7 +370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2505279392089680375}
   - component: {fileID: 185848152548233039}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: B_L_Thigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,7 +495,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3345002992173244952}
   - component: {fileID: 7267521729654693149}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: B_R_Calf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1138,7 +1138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8878162923653390243}
   - component: {fileID: 6739807808159316901}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: B_L_Calf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1321,7 +1321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3280676461641975879}
   - component: {fileID: 8237658282490502238}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: B_Spine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1457,15 +1457,9 @@ MonoBehaviour:
   characterGroup: 0
   isDead: 0
   isPerformingAction: 0
-  isGrounded: 1
-  isSprinting: 0
-  isGrappling: 0
   _isChargingAttack: 0
   _isLockedOn: 0
   _isMoving: 0
-  applyRootMotion: 0
-  canRotate: 1
-  canMove: 1
   maxHealth: 0
   _currentHealth: 0
   maxStamina: 0
@@ -1571,6 +1565,11 @@ MonoBehaviour:
   groundedVelocity: -20
   fallStartVelocity: -5
   isDashing: 0
+  isGrounded: 1
+  isSprinting: 0
+  isGrappling: 0
+  canRotate: 1
+  canMove: 1
   player: {fileID: 0}
   debugHitPointTransform: {fileID: 0}
   verticalMovement: 0
@@ -1607,6 +1606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd28a11948b4f9047a665ddeda5553a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimatorManager
+  applyRootMotion: 0
   lastAnimationPlayed: 
   hitForward01: hitForward01
   hitBackward01: hitBackward01
@@ -1999,7 +1999,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6492622317197649828}
   - component: {fileID: 5766286847314822125}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: B_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2086,7 +2086,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1810552214525442036}
   - component: {fileID: 48597969593168319}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: B_L_UpperArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2319,7 +2319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1373211019657177061}
   - component: {fileID: 7435241720644088524}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: B_R_Thigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

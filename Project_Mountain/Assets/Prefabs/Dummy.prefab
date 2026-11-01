@@ -1152,15 +1152,9 @@ MonoBehaviour:
   characterGroup: 1
   isDead: 0
   isPerformingAction: 0
-  isGrounded: 1
-  isSprinting: 0
-  isGrappling: 0
   _isChargingAttack: 0
   _isLockedOn: 0
   _isMoving: 0
-  applyRootMotion: 0
-  canRotate: 1
-  canMove: 1
   maxHealth: 0
   _currentHealth: 0
   maxStamina: 0
@@ -1197,6 +1191,11 @@ MonoBehaviour:
   groundedVelocity: -20
   fallStartVelocity: -5
   isDashing: 0
+  isGrounded: 1
+  isSprinting: 0
+  isGrappling: 0
+  canRotate: 1
+  canMove: 1
 --- !u!114 &2619709434280417425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1221,8 +1220,8 @@ MonoBehaviour:
   maximumFOV: 35
   attackRotationSpeed: 25
   actionRecoveryTimer: 0
-  rightHandDamageCollider: {fileID: 4561699845451692083}
-  leftHandDamageCollider: {fileID: 4396245339575709056}
+  rightHandDamageCollider: {fileID: 4396245339575709056}
+  leftHandDamageCollider: {fileID: 4561699845451692083}
   baseDamage: 25
   attack01DamageModifier: 1
   attack02DamageModifier: 1.5
@@ -1238,6 +1237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 665ee94f354d665479021656dd76291f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AICharacterAnimatorManager
+  applyRootMotion: 0
   lastAnimationPlayed: 
   hitForward01: hitForward01
   hitBackward01: hitBackward01
