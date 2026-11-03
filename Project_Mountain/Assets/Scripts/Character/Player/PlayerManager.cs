@@ -1,6 +1,6 @@
 using System.Collections;
 using Unity.Collections;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,12 +8,33 @@ public class PlayerManager : CharacterManager
 {
     [Header("DEBUG MENU")]
     [SerializeField] bool respawnCharacter = false;
+    [SerializeField] bool switchWeapon = false; 
 
     public PlayerLocomotionManager playerLocomotionManager;
     public PlayerAnimatorManager playerAnimatorManager;
     public PlayerStatsManager playerStatsManager;
+    public PlayerInventoryManager playerInventoryManager;
+    public PlayerEquipmentManager playerEquipmentManager;
+    public PlayerCombatManager playerCombatManager;
 
     public FixedString64Bytes characterName;
+
+    public event Action<int, int> OnCurrentWeaponChanged;
+    public int _currentWeaponInUse;
+    public int currentWeaponInUse
+    {
+        get =>_currentWeaponInUse;
+        set
+        {
+            if (_currentWeaponInUse == value)
+                return;
+
+            int oldValue = _currentWeaponInUse;
+            _currentWeaponInUse = value;
+            OnCurrentWeaponChanged?.Invoke(oldValue, _currentWeaponInUse);
+        }
+    }
+
 
     protected override void Awake()
     {
@@ -22,9 +43,13 @@ public class PlayerManager : CharacterManager
         playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         playerStatsManager = GetComponent<PlayerStatsManager>();
-
+        playerInventoryManager = GetComponent<PlayerInventoryManager>();
+        playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
+        playerCombatManager = GetComponent<PlayerCombatManager>();
+        
         WorldSaveGameManager.instance.player = this;
     }
+
     protected override void Start()
     {
         PlayerCamera.instance.player = this;
@@ -40,7 +65,14 @@ public class PlayerManager : CharacterManager
         OnStaminaChanged += PlayerUIManager.instance.playerUIHUDManager.SetNewStaminaValue;
         OnStaminaChanged += playerStatsManager.ResetStaminaRegenTimer;
 
+        OnHandWeaponIDChanged += OnCurrentHandWeaponChange;
+        OnCurrentWeaponChanged += OnCurrentWeaponInUseIDChange;
+
         OnHealthChanged += CheckHP;
+
+        OnIsLockOnChanged += OnIsLockedOnChange;
+
+        OnIsChargingAttackChanged += OnIsChargingAttackChange;
     }
 
     protected override void Update()
@@ -90,6 +122,19 @@ public class PlayerManager : CharacterManager
         currentStamina = maxStamina;
     }
 
+    public void OnCurrentHandWeaponChange(int oldID, int newID)
+    {
+        WeaponItem newWeapon =  Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
+        playerInventoryManager.currentInHandWeapon = newWeapon;
+        playerEquipmentManager.LoadWeapon();
+    }
+
+    public void OnCurrentWeaponInUseIDChange(int oldID, int newID)
+    {
+        WeaponItem newWeapon = Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
+        playerCombatManager.currentWeaponInUse = newWeapon;
+    }
+
     public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
     {
         int activeScene = SceneManager.GetActiveScene().buildIndex;
@@ -134,12 +179,35 @@ public class PlayerManager : CharacterManager
         PlayerUIManager.instance.playerUIHUDManager.SetMaxStaminaValue(maxStamina);
     }
 
+    protected virtual void OnDestroy()
+    {
+        OnVitalityChanged -= SetNewMaxHealth;
+        OnEnduranceChanged -= SetNewMaxStamina;
+
+        OnHealthChanged -= PlayerUIManager.instance.playerUIHUDManager.SetNewHealthValue;
+        OnStaminaChanged -= PlayerUIManager.instance.playerUIHUDManager.SetNewStaminaValue;
+
+        OnStaminaChanged -= playerStatsManager.ResetStaminaRegenTimer;
+
+        OnHandWeaponIDChanged -= OnCurrentHandWeaponChange;
+        OnCurrentWeaponChanged -= OnCurrentWeaponInUseIDChange;
+        OnHealthChanged -= CheckHP;
+        OnIsLockOnChanged -= OnIsLockedOnChange;
+        OnIsChargingAttackChanged -= OnIsChargingAttackChange;
+    }
+
     private void DebugMenu()
     {
         if (respawnCharacter)
         {
             respawnCharacter = false;
             ReviveCharacter();
+        }
+
+        if (switchWeapon)
+        {
+            switchWeapon = false;
+            playerEquipmentManager.SwitchWeapon();
         }
     }
 }

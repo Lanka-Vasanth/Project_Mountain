@@ -1,12 +1,17 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class CharacterManager : MonoBehaviour
 {
     public CharacterController characterController;
+    public CharacterLocomotionManager characterLocomotionManager;
     public CharacterEffectsManager characterEffectsManager;
     public CharacterAnimatorManager characterAnimatorManager;
+    public CharacterCombatManager characterCombatManager;
+    public CharacterSoundFXManager characterSoundFXManager;
     public Animator animator;
 
     [Header("Status")]
@@ -16,6 +21,34 @@ public class CharacterManager : MonoBehaviour
     public bool isPerformingAction = false;
     public bool isGrounded = true;
     public bool isSprinting = false;
+    public bool isGrappling = false;
+    public bool _isChargingAttack = false;
+    public bool isChargingAttack{
+        get =>_isChargingAttack;
+        set
+        {
+            if (_isChargingAttack == value)
+                return;
+
+            bool oldValue = _isChargingAttack;
+            _isChargingAttack = value;
+            OnIsChargingAttackChanged?.Invoke(oldValue, _isChargingAttack);
+        }
+    }
+    public bool _isLockedOn = false;
+    public bool isLockedOn
+    {
+        get =>_isLockedOn;
+        set
+        {
+            if (_isLockedOn == value)
+                return;
+
+            bool oldValue = _isLockedOn;
+            _isLockedOn = value;
+            OnIsLockOnChanged?.Invoke(oldValue, _isLockedOn);
+        }
+    }
     public bool applyRootMotion = false;
     public bool canRotate = true;
     public bool canMove = true;
@@ -24,7 +57,10 @@ public class CharacterManager : MonoBehaviour
     public event Action<float, float> OnStaminaChanged;
     public event Action<int, int> OnVitalityChanged;
     public event Action<int, int> OnEnduranceChanged;
-    
+    public event Action<int, int> OnHandWeaponIDChanged;
+    public event Action<bool, bool> OnIsLockOnChanged;
+    public event Action<bool, bool> OnIsChargingAttackChanged;
+
     [Header("Resources")]
     public int maxHealth = 0;
     [SerializeField]private int _currentHealth;
@@ -88,20 +124,39 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
+    [Header("Equipment")]
+    public int _currentInHandWeaponID;
+    public int currentInHandWeaponID
+    {
+        get =>_currentInHandWeaponID;
+        set
+        {
+            if (_currentInHandWeaponID == value)
+                return;
+
+            int oldValue = _currentInHandWeaponID;
+            _currentInHandWeaponID = value;
+            OnHandWeaponIDChanged?.Invoke(oldValue, _currentInHandWeaponID);
+        }
+    }
+
     protected virtual void Awake()
     {
         DontDestroyOnLoad(this);
 
         characterController = GetComponent<CharacterController>();
+        characterLocomotionManager = GetComponent<CharacterLocomotionManager>();
         animator = GetComponent<Animator>();
         characterEffectsManager = GetComponent<CharacterEffectsManager>();
         characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+        characterCombatManager = GetComponent<CharacterCombatManager>();
+        characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
 
     }
 
     protected virtual void Start()
     {
-        
+        IgnoreOwnColliders();
     }
 
     protected virtual void Update()
@@ -127,6 +182,19 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
+    public void OnIsLockedOnChange(bool old, bool isLockedOn)
+    {
+        if (!isLockedOn)
+        {
+            characterCombatManager.currentTarget = null;
+        }
+    }
+
+    public void OnIsChargingAttackChange(bool oldStatus, bool newStatus)
+    {
+        animator.SetBool("isChargingAttack", isChargingAttack);
+    } 
+
     public virtual IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
     {
         isDead = true;
@@ -150,5 +218,29 @@ public class CharacterManager : MonoBehaviour
     public virtual void ReviveCharacter()
     {
         
+    }
+
+    protected virtual void IgnoreOwnColliders()
+    {
+        Collider characterControllerCollider = GetComponent<Collider>();
+
+        Collider[] damageableCharacterColliders = GetComponentsInChildren<Collider>();
+        
+        List<Collider> ignoreColliders = new List<Collider>();
+
+        foreach(var collider in damageableCharacterColliders)
+        {
+            ignoreColliders.Add(collider);
+        }
+
+        ignoreColliders.Add(characterControllerCollider);
+
+        foreach(var collider in ignoreColliders)
+        {
+            foreach(var otherCollider in ignoreColliders)
+            {
+                Physics.IgnoreCollision(collider, otherCollider, true);
+            }
+        }
     }
 }

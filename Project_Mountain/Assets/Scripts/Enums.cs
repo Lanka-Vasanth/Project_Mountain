@@ -14,3 +14,16 @@ public enum CharacterSlot
     CharacterSlot_05,
     NO_SLOT,
 }
+
+public enum WeaponModelSlot
+{
+    RightHand,
+    LeftHand,
+}
+
+public enum AttackType
+{
+    LightAttack01,
+    HeavyAttack01,
+    ChargedHeavyAttack01,
+}

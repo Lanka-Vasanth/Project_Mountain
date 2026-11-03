@@ -339,6 +339,69 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Grapple"",
+                    ""type"": ""Button"",
+                    ""id"": ""6b1fad36-558f-4116-953e-9e0f7b47c080"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""R1"",
+                    ""type"": ""Button"",
+                    ""id"": ""e8cbf627-6332-439f-b737-49febe6326f3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""R2"",
+                    ""type"": ""Button"",
+                    ""id"": ""02a704b6-b232-4333-a2d4-5e121ef8c8e2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Hold R2"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""e3a907f0-8501-451a-80ee-071b0cba8237"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(pressPoint=0.1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Lock On"",
+                    ""type"": ""Button"",
+                    ""id"": ""77823122-caf6-4ad8-a572-f98b26a84f99"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Seek Left Lock On Target"",
+                    ""type"": ""Button"",
+                    ""id"": ""ecf3c0fb-4db2-4d2e-8f8e-9949354be578"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Seek Right Lock On Target"",
+                    ""type"": ""Button"",
+                    ""id"": ""58eea510-008c-401a-9651-1a22c7cee496"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -383,6 +446,116 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""396c8843-a7a6-4ff8-bd7b-6f01d24b1aec"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grapple"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2293d193-2aab-4098-b943-56aa17d1cd69"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grapple"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3882750e-27df-4275-907a-1aa8d67e2876"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""R1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9990d021-84f1-4a4f-8cfd-bff59e985fd8"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""R1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4891268a-6c9e-4fd2-bd56-4ae62e3d71b5"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""R2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cfc4b9ba-ca2a-4ff2-bd2a-86589434a4f3"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hold R2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1900e7db-a288-46df-99d7-72951b3885af"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock On"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""91034a1a-6432-49cd-977b-2b930d84b448"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock On"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d1f7df6-b4ff-47c3-accc-c0768a2fbb40"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Seek Left Lock On Target"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""433d0555-0120-4c88-b9fc-d0cfa739be78"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Seek Right Lock On Target"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -502,6 +675,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions = asset.FindActionMap("Player Actions", throwIfNotFound: true);
         m_PlayerActions_Dash = m_PlayerActions.FindAction("Dash", throwIfNotFound: true);
         m_PlayerActions_Sprint = m_PlayerActions.FindAction("Sprint", throwIfNotFound: true);
+        m_PlayerActions_Grapple = m_PlayerActions.FindAction("Grapple", throwIfNotFound: true);
+        m_PlayerActions_R1 = m_PlayerActions.FindAction("R1", throwIfNotFound: true);
+        m_PlayerActions_R2 = m_PlayerActions.FindAction("R2", throwIfNotFound: true);
+        m_PlayerActions_HoldR2 = m_PlayerActions.FindAction("Hold R2", throwIfNotFound: true);
+        m_PlayerActions_LockOn = m_PlayerActions.FindAction("Lock On", throwIfNotFound: true);
+        m_PlayerActions_SeekLeftLockOnTarget = m_PlayerActions.FindAction("Seek Left Lock On Target", throwIfNotFound: true);
+        m_PlayerActions_SeekRightLockOnTarget = m_PlayerActions.FindAction("Seek Right Lock On Target", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_O = m_UI.FindAction("O", throwIfNotFound: true);
@@ -793,6 +973,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlayerActionsActions> m_PlayerActionsActionsCallbackInterfaces = new List<IPlayerActionsActions>();
     private readonly InputAction m_PlayerActions_Dash;
     private readonly InputAction m_PlayerActions_Sprint;
+    private readonly InputAction m_PlayerActions_Grapple;
+    private readonly InputAction m_PlayerActions_R1;
+    private readonly InputAction m_PlayerActions_R2;
+    private readonly InputAction m_PlayerActions_HoldR2;
+    private readonly InputAction m_PlayerActions_LockOn;
+    private readonly InputAction m_PlayerActions_SeekLeftLockOnTarget;
+    private readonly InputAction m_PlayerActions_SeekRightLockOnTarget;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player Actions".
     /// </summary>
@@ -812,6 +999,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerActions/Sprint".
         /// </summary>
         public InputAction @Sprint => m_Wrapper.m_PlayerActions_Sprint;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/Grapple".
+        /// </summary>
+        public InputAction @Grapple => m_Wrapper.m_PlayerActions_Grapple;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/R1".
+        /// </summary>
+        public InputAction @R1 => m_Wrapper.m_PlayerActions_R1;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/R2".
+        /// </summary>
+        public InputAction @R2 => m_Wrapper.m_PlayerActions_R2;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/HoldR2".
+        /// </summary>
+        public InputAction @HoldR2 => m_Wrapper.m_PlayerActions_HoldR2;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/LockOn".
+        /// </summary>
+        public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/SeekLeftLockOnTarget".
+        /// </summary>
+        public InputAction @SeekLeftLockOnTarget => m_Wrapper.m_PlayerActions_SeekLeftLockOnTarget;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/SeekRightLockOnTarget".
+        /// </summary>
+        public InputAction @SeekRightLockOnTarget => m_Wrapper.m_PlayerActions_SeekRightLockOnTarget;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -844,6 +1059,27 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @Grapple.started += instance.OnGrapple;
+            @Grapple.performed += instance.OnGrapple;
+            @Grapple.canceled += instance.OnGrapple;
+            @R1.started += instance.OnR1;
+            @R1.performed += instance.OnR1;
+            @R1.canceled += instance.OnR1;
+            @R2.started += instance.OnR2;
+            @R2.performed += instance.OnR2;
+            @R2.canceled += instance.OnR2;
+            @HoldR2.started += instance.OnHoldR2;
+            @HoldR2.performed += instance.OnHoldR2;
+            @HoldR2.canceled += instance.OnHoldR2;
+            @LockOn.started += instance.OnLockOn;
+            @LockOn.performed += instance.OnLockOn;
+            @LockOn.canceled += instance.OnLockOn;
+            @SeekLeftLockOnTarget.started += instance.OnSeekLeftLockOnTarget;
+            @SeekLeftLockOnTarget.performed += instance.OnSeekLeftLockOnTarget;
+            @SeekLeftLockOnTarget.canceled += instance.OnSeekLeftLockOnTarget;
+            @SeekRightLockOnTarget.started += instance.OnSeekRightLockOnTarget;
+            @SeekRightLockOnTarget.performed += instance.OnSeekRightLockOnTarget;
+            @SeekRightLockOnTarget.canceled += instance.OnSeekRightLockOnTarget;
         }
 
         /// <summary>
@@ -861,6 +1097,27 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @Grapple.started -= instance.OnGrapple;
+            @Grapple.performed -= instance.OnGrapple;
+            @Grapple.canceled -= instance.OnGrapple;
+            @R1.started -= instance.OnR1;
+            @R1.performed -= instance.OnR1;
+            @R1.canceled -= instance.OnR1;
+            @R2.started -= instance.OnR2;
+            @R2.performed -= instance.OnR2;
+            @R2.canceled -= instance.OnR2;
+            @HoldR2.started -= instance.OnHoldR2;
+            @HoldR2.performed -= instance.OnHoldR2;
+            @HoldR2.canceled -= instance.OnHoldR2;
+            @LockOn.started -= instance.OnLockOn;
+            @LockOn.performed -= instance.OnLockOn;
+            @LockOn.canceled -= instance.OnLockOn;
+            @SeekLeftLockOnTarget.started -= instance.OnSeekLeftLockOnTarget;
+            @SeekLeftLockOnTarget.performed -= instance.OnSeekLeftLockOnTarget;
+            @SeekLeftLockOnTarget.canceled -= instance.OnSeekLeftLockOnTarget;
+            @SeekRightLockOnTarget.started -= instance.OnSeekRightLockOnTarget;
+            @SeekRightLockOnTarget.performed -= instance.OnSeekRightLockOnTarget;
+            @SeekRightLockOnTarget.canceled -= instance.OnSeekRightLockOnTarget;
         }
 
         /// <summary>
@@ -1113,6 +1370,55 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSprint(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Grapple" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGrapple(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "R1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnR1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "R2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnR2(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Hold R2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHoldR2(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Lock On" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLockOn(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Seek Left Lock On Target" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSeekLeftLockOnTarget(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Seek Right Lock On Target" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSeekRightLockOnTarget(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

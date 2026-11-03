@@ -14,6 +14,9 @@ public class CharacterLocomotionManager : MonoBehaviour
     protected bool fallingVelocitySetCheck = false;
     protected float inAirTimer = 0;
 
+    [Header("Flags")]
+    public bool isDashing = false;
+
     protected virtual void Awake()
     {
         character = GetComponent<CharacterManager>();
@@ -49,4 +52,6 @@ public class CharacterLocomotionManager : MonoBehaviour
     {   
         Gizmos.DrawSphere(character.transform.position, groundCheckSphereRadius);
     }
+
+    
 }
